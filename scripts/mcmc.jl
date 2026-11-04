@@ -1,10 +1,11 @@
 using Pkg
-Pkg.activate(dirname(@__DIR__))
+const ROOT = "/home/d/d-linkevicius/SynapseExperimentModeling.jl"
+Pkg.activate(ROOT)
 using Revise
 using SynapseExperimentModeling, NoLimits, JLD2, Random
 import Turing
 
-include(joinpath(dirname(@__DIR__), "model_zoo", "calmodulin.jl"))
+include(joinpath(ROOT, "model_zoo", "calmodulin.jl"))
 
 const MODELS = ("calmodulin_faas", "calmodulin_faas_shifman_fig1", "calmodulin_full")
 
@@ -18,14 +19,14 @@ res = fit_model(
     NoLimits.MCMC(;
         sampler = Turing.NUTS(0.75),
         turing_kwargs = (
-            n_samples = 1000,
-            n_adapt = 500,
+            n_samples = 1, #000,
+            n_adapt = 5, #00,
             progress = true
         )
     );
     rng = Xoshiro(chain_id)
 )
 
-dir = mkpath(joinpath(dirname(@__DIR__), "results", model_name))
+dir = mkpath(joinpath(ROOT, "results", model_name))
 jldsave(joinpath(dir, "chain_$(chain_id).jld2"); chain = get_chain(res))
 save_fit(joinpath(dir, "fit_$(chain_id).jld2"), res; include_data = true)
