@@ -1,4 +1,12 @@
 #!/bin/bash
+#SBATCH --partition=compute
+#SBATCH --output=outputs/slurm-%A-%a.out
+#SBATCH --error=errors/slurm-%A-%a.err
+#SBATCH --cpus-per-task=128
+#SBATCH --mem=512G
+#SBATCH --time=96:00:00
+#SBATCH --mail-user=d.linkevicius@oist.jp
+#SBATCH --mail-type=BEGIN,END,FAIL,ARRAY_TASKS
 #SBATCH --job-name=calmodulin_mcmc
 #SBATCH --array=0-14
 
