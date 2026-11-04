@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --partition=compute
-#SBATCH --output=outputs/slurm-%A-%a.out
-#SBATCH --error=errors/slurm-%A-%a.err
+#SBATCH --output=slurm_outputs/slurm-%A-%a.out
+#SBATCH --error=slurm_errors/slurm-%A-%a.err
 #SBATCH --cpus-per-task=128
 #SBATCH --mem=512G
 #SBATCH --time=96:00:00
