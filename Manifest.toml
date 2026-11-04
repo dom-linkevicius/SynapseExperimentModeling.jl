@@ -2,7 +2,7 @@
 
 julia_version = "1.12.7"
 manifest_format = "2.0"
-project_hash = "3603ba86aca723f0178b8c6d2bd7dd16dcf07a03"
+project_hash = "a130a3fa8cfe4fb9c07873c10abae933fe908e0a"
 
 [[deps.ADTypes]]
 deps = ["PrecompileTools"]
@@ -3588,7 +3588,7 @@ version = "7.48.0"
     SymPyPythonCall = "bc8888f7-b21e-4b7c-a06a-5d9c9496438c"
 
 [[deps.SynapseExperimentModeling]]
-deps = ["AlgebraOfGraphics", "CSV", "CairoMakie", "DataFrames", "DataStructures", "Distributions", "DrWatson", "FileIO", "ImageCore", "ImageFiltering", "ImageIO", "ImageMorphology", "LinearAlgebra", "NoLimits", "Revise", "TerminalLoggers", "Turing", "XLSX"]
+deps = ["AlgebraOfGraphics", "CSV", "CairoMakie", "DataFrames", "DataStructures", "Distributions", "DrWatson", "FileIO", "ImageCore", "ImageFiltering", "ImageIO", "ImageMorphology", "JLD2", "LinearAlgebra", "NoLimits", "Revise", "TerminalLoggers", "Turing", "XLSX"]
 path = "."
 uuid = "3f2fff09-ab47-4f94-8c78-7a8bae3a37c8"
 version = "0.1.0"
