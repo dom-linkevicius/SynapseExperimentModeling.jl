@@ -4,7 +4,7 @@
 #SBATCH --output=slurm_outputs/slurm-%A-%a.out
 #SBATCH --error=slurm_errors/slurm-%A-%a.err
 #SBATCH --cpus-per-task=128
-#SBATCH --mem=512G
+#SBATCH --mem=256G
 #SBATCH --time=96:00:00
 #SBATCH --mail-user=d.linkevicius@oist.jp
 #SBATCH --mail-type=BEGIN,END,FAIL,ARRAY_TASKS
