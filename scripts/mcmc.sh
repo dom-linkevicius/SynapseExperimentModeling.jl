@@ -1,5 +1,6 @@
 #!/bin/bash
 #SBATCH --partition=compute
+#SBATCH --chdir=/home/d/d-linkevicius/SynapseExperimentModeling.jl
 #SBATCH --output=slurm_outputs/slurm-%A-%a.out
 #SBATCH --error=slurm_errors/slurm-%A-%a.err
 #SBATCH --cpus-per-task=128
