@@ -14,6 +14,9 @@ version = findfirst(==(model_name), MODELS)
 version === nothing && error("unknown model $(model_name), expected one of $(MODELS)")
 dm = datamodel(version)
 
+println(model_name, ", chain ", chain_id, ": started ", Libc.strftime("%Y-%m-%d %H:%M:%S", time()))
+flush(stdout)
+
 res = fit_model(
     dm,
     NoLimits.MCMC(;
@@ -30,3 +33,5 @@ res = fit_model(
 dir = mkpath(joinpath(ROOT, "results", model_name))
 jldsave(joinpath(dir, "chain_$(chain_id).jld2"); chain = get_chain(res))
 save_fit(joinpath(dir, "fit_$(chain_id).jld2"), res; include_data = true)
+
+println(model_name, ", chain ", chain_id, ": finished ", Libc.strftime("%Y-%m-%d %H:%M:%S", time()))
