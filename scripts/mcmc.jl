@@ -16,14 +16,15 @@ dm = datamodel(version)
 
 println(model_name, ", chain ", chain_id, ": started ", Libc.strftime("%Y-%m-%d %H:%M:%S", time()))
 flush(stdout)
+flusher = Timer(_ -> (flush(stdout); flush(stderr)), 60; interval = 60)
 
 res = fit_model(
     dm,
     NoLimits.MCMC(;
         sampler = Turing.NUTS(0.75),
         turing_kwargs = (
-            n_samples = 1, #000,
-            n_adapt = 5, #00,
+            n_samples = 1000,
+            n_adapt = 500,
             progress = true
         )
     );
@@ -35,3 +36,4 @@ jldsave(joinpath(dir, "chain_$(chain_id).jld2"); chain = get_chain(res))
 save_fit(joinpath(dir, "fit_$(chain_id).jld2"), res; include_data = true)
 
 println(model_name, ", chain ", chain_id, ": finished ", Libc.strftime("%Y-%m-%d %H:%M:%S", time()))
+close(flusher)
