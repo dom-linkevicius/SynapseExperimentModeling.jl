@@ -12,5 +12,6 @@
 #SBATCH --array=0-5
 
 models=(calmodulin_faas calmodulin_faas_shifman_fig1 calmodulin_full)
+metrics=(diag dense)
 
-julia --threads="${SLURM_CPUS_PER_TASK:-1}" scripts/mcmc.jl "${models[SLURM_ARRAY_TASK_ID / 2]}" $((SLURM_ARRAY_TASK_ID % 2 + 1))
+julia --threads="${SLURM_CPUS_PER_TASK:-1}" scripts/mcmc.jl "${models[SLURM_ARRAY_TASK_ID / 2]}" "${metrics[SLURM_ARRAY_TASK_ID % 2]}" 1

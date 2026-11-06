@@ -4,51 +4,36 @@
 ### DL: model written with independent lobes cannot track that
 
 using NoLimits, Distributions, DataFrames
-using LinearAlgebra: I, kron
-using SynapseExperimentModeling: load_paper_data, equilibrium, SOLVER, ABSTOL, RELTOL
+using LinearAlgebra: kron
+using BracketingNonlinearSolve: IntervalNonlinearProblem, ITP, solve
+using SynapseExperimentModeling: load_paper_data, SOLVER, ABSTOL, RELTOL
 using CairoMakie: Figure, Label, Scatter, Lines, colsize!, Relative
 using AlgebraOfGraphics: AlgebraOfGraphics, mapping, visual, draw!, sorter
 
+lobe_weights(k01, k10, k02, k20, k13, k31, Ca) = [one(Ca), Ca * k01 / k10, Ca * k02 / k20, Ca^2 * k01 / k10 * k13 / k31]
+
+lobe_bound(w) = (w[2] + w[3] + 2 * w[4]) / sum(w)
+
 function calmodulin_equilibrium(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k23_N, k32_N,
                                 k01_C, k10_C, k02_C, k20_C, k13_C, k31_C, k23_C, k32_C, Ca, total)
-    S = [-1 -1  0  0
-          1  0 -1  0
-          0  1  0 -1
-          0  0  1  1]
-    R_N = [k01_N * Ca  -k10_N        0            0
-           k02_N * Ca   0           -k20_N        0
-           0            k13_N * Ca   0           -k31_N
-           0            0            k23_N * Ca  -k32_N]
-    R_C = [k01_C * Ca  -k10_C        0            0
-           k02_C * Ca   0           -k20_C        0
-           0            k13_C * Ca   0           -k31_C
-           0            0            k23_C * Ca  -k32_C]
-    return equilibrium(kron(I(4), S * R_N) + kron(S * R_C, I(4)), total)
+    w_N = lobe_weights(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, Ca)
+    w_C = lobe_weights(k01_C, k10_C, k02_C, k20_C, k13_C, k31_C, Ca)
+    return total * kron(w_C, w_N) / (sum(w_N) * sum(w_C))
 end
 
 const CALMODULIN_CALCIUM = [n_N + n_C for n_C in (0, 1, 1, 2) for n_N in (0, 1, 1, 2)]
 
 bound_calcium(CaM) = sum(CALMODULIN_CALCIUM .* CaM)
 
+calcium_excess(Ca, p) = Ca + p[15] * Ca / (Ca + p[16]) +
+                        p[14] * (lobe_bound(lobe_weights(p[1:6]..., Ca)) + lobe_bound(lobe_weights(p[7:12]..., Ca))) - p[13]
+
 function free_calcium(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k23_N, k32_N,
                       k01_C, k10_C, k02_C, k20_C, k13_C, k31_C, k23_C, k32_C,
                       Ca_total, CaM_t, Fluo4FF_t, Kd_Fluo4FF)
-    states(Ca) = calmodulin_equilibrium(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k23_N, k32_N,
-                                        k01_C, k10_C, k02_C, k20_C, k13_C, k31_C, k23_C, k32_C, Ca, CaM_t)
-    excess(Ca) = Ca + Fluo4FF_t * Ca / (Ca + Kd_Fluo4FF) + bound_calcium(states(Ca)) - Ca_total
-    low, high = zero(Ca_total), Ca_total
-    for _ in 1:60
-        Ca = (low + high) / 2
-        excess(Ca) > 0 ? (high = Ca) : (low = Ca)
-    end
-    Ca = (low + high) / 2
-    for _ in 1:2
-        p = states(Ca) ./ CaM_t
-        n = sum(CALMODULIN_CALCIUM .* p)
-        slope = 1 + Fluo4FF_t * Kd_Fluo4FF / (Ca + Kd_Fluo4FF)^2 + CaM_t * (sum(CALMODULIN_CALCIUM .^ 2 .* p) - n^2) / Ca
-        Ca = Ca - excess(Ca) / slope
-    end
-    return Ca
+    p = [k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k01_C, k10_C, k02_C, k20_C, k13_C, k31_C,
+         Ca_total, CaM_t, Fluo4FF_t, Kd_Fluo4FF]
+    return solve(IntervalNonlinearProblem(calcium_excess, (zero(Ca_total), Ca_total), p), ITP()).u
 end
 
 const EXPERIMENTS = ("Faas_etal_2011", "Shifman_etal_2006_Fig1B", "Shifman_etal_2006_Fig3D")
@@ -89,8 +74,8 @@ calmodulin_faas = @Model begin
         tv_K13d_C = RealNumber(log10(0.38), prior = Normal(log10(0.38), 3))       # log10(µM)
         μ = RealNumber(-1.0, lower = -5.0, upper = 5.0,
                         prior = truncated(Normal(-1, 1); lower = -5, upper = 5))                 # 1
-        Ω = RealNumber(1.5, scale = :log, lower = 1.0,
-                        prior = truncated(Normal(0, 1); lower = 1)) # 1
+        Ω = RealNumber(1.5, scale = :log,
+                        prior = truncated(Normal(0, 1); lower = 0)) # 1
         σ_OGB5_F_F0 = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0,
                                  prior = truncated(Normal(0, 1); lower = 1e-10, upper = 1))  # 1
     end
@@ -114,7 +99,7 @@ calmodulin_faas = @Model begin
     end
 
     @randomEffects begin
-        U = RandomEffect(LogitNormal(μ, Ω); column = :series)  # 1
+        U = RandomEffect(LogitNormal(μ, Ω); column = :U_group)  # 1
     end
 
     @preDifferentialEquation begin
@@ -301,8 +286,8 @@ calmodulin_faas_shifman_fig1 = @Model begin
         tv_K13d_C = RealNumber(log10(0.38), prior = Normal(log10(0.38), 3))       # log10(µM)
         μ = RealNumber(-1.0, lower = -5.0, upper = 5.0,
                         prior = truncated(Normal(-1, 1); lower = -5, upper = 5))                 # 1
-        Ω = RealNumber(1.5, scale = :log, lower = 1.0,
-                        prior = truncated(Normal(0, 1); lower = 1)) # 1
+        Ω = RealNumber(1.5, scale = :log,
+                        prior = truncated(Normal(0, 1); lower = 0)) # 1
         σ_OGB5_F_F0 = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0,
                                  prior = truncated(Normal(0, 1); lower = 1e-10, upper = 1))  # 1
         σ_bound_Ca_per_CaM = RealNumber(0.3, scale = :log, lower = 1e-10, upper = 1.0,
@@ -328,7 +313,7 @@ calmodulin_faas_shifman_fig1 = @Model begin
     end
 
     @randomEffects begin
-        U = RandomEffect(LogitNormal(μ, Ω); column = :series)  # 1
+        U = RandomEffect(LogitNormal(μ, Ω); column = :U_group)  # 1
     end
 
     @preDifferentialEquation begin
@@ -526,8 +511,8 @@ calmodulin_full = @Model begin
         tv_K13d_C = RealNumber(log10(0.38), prior = Normal(log10(0.38), 3))       # log10(µM)
         μ = RealNumber(-1.0, lower = -5.0, upper = 5.0,
                         prior = truncated(Normal(-1, 1); lower = -5, upper = 5))                 # 1
-        Ω = RealNumber(1.5, scale = :log, lower = 1.0, 
-                        prior = truncated(Normal(0, 1); lower = 1)) # 1
+        Ω = RealNumber(1.5, scale = :log,
+                        prior = truncated(Normal(0, 1); lower = 0)) # 1
         σ_OGB5_F_F0 = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0,
                                  prior = truncated(Normal(0, 1); lower = 1e-10, upper = 1))  # 1
         σ_bound_Ca_per_CaM = RealNumber(0.3, scale = :log, lower = 1e-10, upper = 1.0,
@@ -562,7 +547,7 @@ calmodulin_full = @Model begin
     end
 
     @randomEffects begin
-        U = RandomEffect(LogitNormal(μ, Ω); column = :series)  # 1
+        U = RandomEffect(LogitNormal(μ, Ω); column = :U_group)  # 1
     end
 
     @preDifferentialEquation begin
@@ -756,7 +741,7 @@ function faas_data()
                 :OGB5N_kon_per_M_per_ms => ByRow(x -> 1e-6 * x) => :kon_D,
                 :OGB5N_koff_per_ms => :koff_D,
                 :OGB5N_Fmax_over_Fmin => :Fmax_Fmin)
-    return insertcols!(df, :bound_Ca_per_CaM => missing, :Fluo4FF_fraction_bound => missing,
+    return insertcols!(df, :U_group => string.(df.series), :bound_Ca_per_CaM => missing, :Fluo4FF_fraction_bound => missing,
                        :Fluo4FF_t => 0.0, :Kd_Fluo4FF => 13.0, :kon_Fluo4FF => 1.0,
                        :Ca_total => 0.0, :N_lobe => 1.0, :C_lobe => 1.0,
                        :experiment => experiment_id("Faas_etal_2011"))
@@ -767,7 +752,7 @@ function shifman_data()
     fig3 = load_paper_data("Shifman_etal_2006", "FIG3")
     d = vcat(fig1[fig1.series .== "CaM", :], fig3[fig3.series .!= "Fluo4FF", :]; cols = :union)
     free = d.figure .== "FIG1"
-    return DataFrame(series = string.("Shifman_", d.figure, "_", d.series, "_", 1:nrow(d)), t = 0.001,
+    return DataFrame(series = string.("Shifman_", d.figure, "_", d.series, "_", 1:nrow(d)), U_group = "Shifman", t = 0.001,
                      OGB5_F_F0 = missing,
                      bound_Ca_per_CaM = ifelse.(free, d.y, missing),
                      Fluo4FF_fraction_bound = ifelse.(free, missing, d.y),
