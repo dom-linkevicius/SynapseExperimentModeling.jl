@@ -1,4 +1,4 @@
-### DL: Byrne et al (2008) scheme with unique CaM binding sites within lobes.
+### DL: Faas et al (2011) scheme with identical CaM binding sites within lobes.
 ### DL: Had to re-write from Linkevicius et al. (2025) who had independent lobes,
 ### DL: since downstream models will need tracking of CaM molecules and 
 ### DL: model written with independent lobes cannot track that
@@ -10,21 +10,29 @@ using SynapseExperimentModeling: load_paper_data, SOLVER, ABSTOL, RELTOL
 using CairoMakie: Figure, Label, Scatter, Lines, colsize!, Relative
 using AlgebraOfGraphics: AlgebraOfGraphics, mapping, visual, draw!, sorter
 
-lobe_weights(k01, k10, k02, k20, k13, k31, Ca) = [one(Ca), Ca * k01 / k10, Ca * k02 / k20, Ca^2 * k01 / k10 * k13 / k31]
+lobe_weights(kon1, koff1, kon2, koff2, Ca) = [one(Ca), 2 * Ca * kon1 / koff1, Ca^2 * kon1 / koff1 * kon2 / koff2]
 
-lobe_bound(w) = (w[2] + w[3] + 2 * w[4]) / sum(w)
+lobe_bound(w) = (w[2] + 2 * w[3]) / sum(w)
 
-function calmodulin_equilibrium(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k23_N, k32_N,
-                                k01_C, k10_C, k02_C, k20_C, k13_C, k31_C, k23_C, k32_C, Ca, total)
-    w_N = lobe_weights(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, Ca)
-    w_C = lobe_weights(k01_C, k10_C, k02_C, k20_C, k13_C, k31_C, Ca)
+function calmodulin_equilibrium(kon1_N, koff1_N, kon2_N, koff2_N, kon1_C, koff1_C, kon2_C, koff2_C, Ca, total)
+    w_N = lobe_weights(kon1_N, koff1_N, kon2_N, koff2_N, Ca)
+    w_C = lobe_weights(kon1_C, koff1_C, kon2_C, koff2_C, Ca)
     return total * kron(w_C, w_N) / (sum(w_N) * sum(w_C))
 end
 
-const CALMODULIN_CALCIUM = [n_N + n_C for n_C in (0, 1, 1, 2) for n_N in (0, 1, 1, 2)]
+const CALMODULIN_CALCIUM = [n_N + n_C for n_C in 0:2 for n_N in 0:2]
 
 bound_calcium(CaM) = sum(CALMODULIN_CALCIUM .* CaM)
 
+const N_LOBE_CALCIUM = [n_N for n_C in 0:2 for n_N in 0:2]
+
+const C_LOBE_CALCIUM = [n_C for n_C in 0:2 for n_N in 0:2]
+
+N_lobe_calcium(CaM) = sum(N_LOBE_CALCIUM .* CaM)
+
+C_lobe_calcium(CaM) = sum(C_LOBE_CALCIUM .* CaM)
+
+#=
 calcium_excess(Ca, p) = Ca + p[15] * Ca / (Ca + p[16]) +
                         p[14] * (lobe_bound(lobe_weights(p[1:6]..., Ca)) + lobe_bound(lobe_weights(p[7:12]..., Ca))) - p[13]
 
@@ -35,11 +43,16 @@ function free_calcium(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k23_N, k32_N,
          Ca_total, CaM_t, Fluo4FF_t, Kd_Fluo4FF]
     return solve(IntervalNonlinearProblem(calcium_excess, (zero(Ca_total), Ca_total), p), ITP()).u
 end
+=#
 
-const EXPERIMENTS = ("Faas_etal_2011", "Shifman_etal_2006_Fig1B", "Shifman_etal_2006_Fig3D")
+const EXPERIMENTS = ("Faas_etal_2011", "Shifman_etal_2006_Fig1B", "Shifman_etal_2006_Fig3D", "VanScyoc_etal_2002_Fig3C")
+
+const MODEL_EXPERIMENTS = (calmodulin_faas = ("Faas_etal_2011",),
+                           calmodulin_full = ("Faas_etal_2011", "VanScyoc_etal_2002_Fig3C"))
 
 experiment_id(name) = findfirst(==(name), EXPERIMENTS)
 
+#=
 function initial_calcium(experiment, k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k23_N, k32_N,
                          k01_C, k10_C, k02_C, k20_C, k13_C, k31_C, k23_C, k32_C,
                          Ca_free, Ca_total, CaM_t, Fluo4FF_t, Kd_Fluo4FF)
@@ -48,36 +61,28 @@ function initial_calcium(experiment, k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k
                         k01_C, k10_C, k02_C, k20_C, k13_C, k31_C, k23_C, k32_C,
                         Ca_total, CaM_t, Fluo4FF_t, Kd_Fluo4FF)
 end
+=#
 
 calmodulin_faas = @Model begin
     @helpers begin
-        calmodulin_equilibrium(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k23_N, k32_N,
-                               k01_C, k10_C, k02_C, k20_C, k13_C, k31_C, k23_C, k32_C, Ca, total) =
-            calmodulin_equilibrium(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k23_N, k32_N,
-                                   k01_C, k10_C, k02_C, k20_C, k13_C, k31_C, k23_C, k32_C, Ca, total)
+        calmodulin_equilibrium(kon1_N, koff1_N, kon2_N, koff2_N, kon1_C, koff1_C, kon2_C, koff2_C, Ca, total) =
+            calmodulin_equilibrium(kon1_N, koff1_N, kon2_N, koff2_N, kon1_C, koff1_C, kon2_C, koff2_C, Ca, total)
     end
 
     @fixedEffects begin
-        tv_k01_N = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k02_N = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k13_N = RealNumber(log10(0.5072), prior = Normal(log10(0.5072), 3))    # log10(µM^-1 ms^-1)
-        tv_k23_N = RealNumber(log10(0.5), prior = Normal(log10(0.5), 3))          # log10(µM^-1 ms^-1)
-        tv_K01d_N = RealNumber(log10(33.0), prior = Normal(log10(33.0), 3))       # log10(µM)
-        tv_K13d_N = RealNumber(log10(230.0), prior = Normal(log10(230.0), 3))     # log10(µM)
-        tv_K02d_N = RealNumber(log10(3.45), prior = Normal(log10(3.45), 3))       # log10(µM)
-        tv_k01_C = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k02_C = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k13_C = RealNumber(log10(0.00371), prior = Normal(log10(0.00371), 3))  # log10(µM^-1 ms^-1)
-        tv_k23_C = RealNumber(log10(0.118), prior = Normal(log10(0.118), 3))      # log10(µM^-1 ms^-1)
-        tv_K01d_C = RealNumber(log10(18.5), prior = Normal(log10(18.5), 3))       # log10(µM)
-        tv_K02d_C = RealNumber(log10(116.0), prior = Normal(log10(116.0), 3))     # log10(µM)
-        tv_K13d_C = RealNumber(log10(0.38), prior = Normal(log10(0.38), 3))       # log10(µM)
-        μ = RealNumber(-1.0, lower = -5.0, upper = 5.0,
-                        prior = truncated(Normal(-1, 1); lower = -5, upper = 5))                 # 1
-        Ω = RealNumber(1.5, scale = :log,
-                        prior = truncated(Normal(0, 1); lower = 0)) # 1
-        σ_OGB5_F_F0 = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0,
-                                 prior = truncated(Normal(0, 1); lower = 1e-10, upper = 1))  # 1
+        tv_kon1_N = RealNumber(log10(0.77), upper = log10(60.0), prior = truncated(Normal(log10(0.77), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_kon2_N = RealNumber(log10(32.0), upper = log10(60.0), prior = truncated(Normal(log10(32.0), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_Kd1_N = RealNumber(log10(193.0), lower = log10(0.001), prior = truncated(Normal(log10(193.0), 3); lower = log10(0.001)))    # log10(µM)
+        tv_Kd_app_N = RealNumber(log10(sqrt(193.0 * 0.788)), lower = log10(1.0), upper = log10(200.0),
+                                 prior = truncated(Normal(log10(sqrt(193.0 * 0.788)), 3); lower = log10(1.0), upper = log10(200.0)))  # log10(µM)
+        tv_kon1_C = RealNumber(log10(0.084), upper = log10(60.0), prior = truncated(Normal(log10(0.084), 3); upper = log10(60.0)))    # log10(µM^-1 ms^-1)
+        tv_kon2_C = RealNumber(log10(0.025), upper = log10(60.0), prior = truncated(Normal(log10(0.025), 3); upper = log10(60.0)))    # log10(µM^-1 ms^-1)
+        tv_Kd1_C = RealNumber(log10(27.8), lower = log10(0.001), prior = truncated(Normal(log10(27.8), 3); lower = log10(0.001)))      # log10(µM)
+        tv_Kd_app_C = RealNumber(log10(sqrt(27.8 * 0.264)), lower = log10(1.0), upper = log10(200.0),
+                                 prior = truncated(Normal(log10(sqrt(27.8 * 0.264)), 3); lower = log10(1.0), upper = log10(200.0)))   # log10(µM)
+        μ = RealNumber(-1.0, lower = -5.0, upper = 5.0)                               # 1
+        Ω = RealNumber(1.5, scale = :log, lower = 1e-10, upper = 5.0)                 # 1
+        σ_OGB5_F_F0 = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0)      # 1
     end
 
     @covariates begin
@@ -106,45 +111,31 @@ calmodulin_faas = @Model begin
         kon_PP = kon_DMn
         Kd_D = koff_D / kon_D
 
-        K01d_N = 10^tv_K01d_N
-        k01_N = 10^tv_k01_N
-        k10_N = K01d_N * 10^tv_k01_N
+        Kd_app_N = 10^tv_Kd_app_N
 
-        K02d_N = 10^tv_K02d_N
-        k02_N = 10^tv_k02_N
-        k20_N = K02d_N * 10^tv_k02_N
+        Kd1_N = 10^tv_Kd1_N
+        kon1_N = 10^tv_kon1_N
+        koff1_N = Kd1_N * 10^tv_kon1_N
 
-        K13d_N = 10^tv_K13d_N
-        k13_N = 10^tv_k13_N
-        k31_N = K13d_N * 10^tv_k13_N
+        Kd2_N = Kd_app_N^2 / Kd1_N
+        kon2_N = 10^tv_kon2_N
+        koff2_N = Kd2_N * 10^tv_kon2_N
 
-        K23d_N = K01d_N * K13d_N / K02d_N
-        k23_N = 10^tv_k23_N
-        k32_N = K23d_N * 10^tv_k23_N
+        Kd_app_C = 10^tv_Kd_app_C
 
-        K01d_C = 10^tv_K01d_C
-        k01_C = 10^tv_k01_C
-        k10_C = K01d_C * 10^tv_k01_C
+        Kd1_C = 10^tv_Kd1_C
+        kon1_C = 10^tv_kon1_C
+        koff1_C = Kd1_C * 10^tv_kon1_C
 
-        K02d_C = 10^tv_K02d_C
-        k02_C = 10^tv_k02_C
-        k20_C = K02d_C * 10^tv_k02_C
-
-        K13d_C = 10^tv_K13d_C
-        k13_C = 10^tv_k13_C
-        k31_C = K13d_C * 10^tv_k13_C
-
-        K23d_C = K01d_C * K13d_C / K02d_C
-        k23_C = 10^tv_k23_C
-        k32_C = K23d_C * 10^tv_k23_C
+        Kd2_C = Kd_app_C^2 / Kd1_C
+        kon2_C = 10^tv_kon2_C
+        koff2_C = Kd2_C * 10^tv_kon2_C
 
         DMn₀ = (Kd_DMn * DMn_t) / (Ca_free + Kd_DMn)
         CaDMn₀ = DMn_t - DMn₀
         OGB5₀ = (Kd_D * OGB5_t) / (Ca_free + Kd_D)
         CaOGB5₀ = OGB5_t - OGB5₀
-        CaM₀ = calmodulin_equilibrium(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k23_N, k32_N,
-                                      k01_C, k10_C, k02_C, k20_C, k13_C, k31_C, k23_C, k32_C,
-                                      Ca_free, CaM_t)
+        CaM₀ = calmodulin_equilibrium(kon1_N, koff1_N, kon2_N, koff2_N, kon1_C, koff1_C, kon2_C, koff2_C, Ca_free, CaM_t)
 
         DMn_s₀_u = (1 - f_frac) * DMn₀ * U
         CaDMn_s₀_u = (1 - f_frac) * CaDMn₀ * U
@@ -153,51 +144,25 @@ calmodulin_faas = @Model begin
     end
 
     @DifferentialEquation begin
-        JN01_C0(t) = k01_N * Ca * CaM_N0C0 - k10_N * CaM_N1C0
-        JN02_C0(t) = k02_N * Ca * CaM_N0C0 - k20_N * CaM_N2C0
-        JN13_C0(t) = k13_N * Ca * CaM_N1C0 - k31_N * CaM_N3C0
-        JN23_C0(t) = k23_N * Ca * CaM_N2C0 - k32_N * CaM_N3C0
-        JN01_C1(t) = k01_N * Ca * CaM_N0C1 - k10_N * CaM_N1C1
-        JN02_C1(t) = k02_N * Ca * CaM_N0C1 - k20_N * CaM_N2C1
-        JN13_C1(t) = k13_N * Ca * CaM_N1C1 - k31_N * CaM_N3C1
-        JN23_C1(t) = k23_N * Ca * CaM_N2C1 - k32_N * CaM_N3C1
-        JN01_C2(t) = k01_N * Ca * CaM_N0C2 - k10_N * CaM_N1C2
-        JN02_C2(t) = k02_N * Ca * CaM_N0C2 - k20_N * CaM_N2C2
-        JN13_C2(t) = k13_N * Ca * CaM_N1C2 - k31_N * CaM_N3C2
-        JN23_C2(t) = k23_N * Ca * CaM_N2C2 - k32_N * CaM_N3C2
-        JN01_C3(t) = k01_N * Ca * CaM_N0C3 - k10_N * CaM_N1C3
-        JN02_C3(t) = k02_N * Ca * CaM_N0C3 - k20_N * CaM_N2C3
-        JN13_C3(t) = k13_N * Ca * CaM_N1C3 - k31_N * CaM_N3C3
-        JN23_C3(t) = k23_N * Ca * CaM_N2C3 - k32_N * CaM_N3C3
-        JC01_N0(t) = k01_C * Ca * CaM_N0C0 - k10_C * CaM_N0C1
-        JC02_N0(t) = k02_C * Ca * CaM_N0C0 - k20_C * CaM_N0C2
-        JC13_N0(t) = k13_C * Ca * CaM_N0C1 - k31_C * CaM_N0C3
-        JC23_N0(t) = k23_C * Ca * CaM_N0C2 - k32_C * CaM_N0C3
-        JC01_N1(t) = k01_C * Ca * CaM_N1C0 - k10_C * CaM_N1C1
-        JC02_N1(t) = k02_C * Ca * CaM_N1C0 - k20_C * CaM_N1C2
-        JC13_N1(t) = k13_C * Ca * CaM_N1C1 - k31_C * CaM_N1C3
-        JC23_N1(t) = k23_C * Ca * CaM_N1C2 - k32_C * CaM_N1C3
-        JC01_N2(t) = k01_C * Ca * CaM_N2C0 - k10_C * CaM_N2C1
-        JC02_N2(t) = k02_C * Ca * CaM_N2C0 - k20_C * CaM_N2C2
-        JC13_N2(t) = k13_C * Ca * CaM_N2C1 - k31_C * CaM_N2C3
-        JC23_N2(t) = k23_C * Ca * CaM_N2C2 - k32_C * CaM_N2C3
-        JC01_N3(t) = k01_C * Ca * CaM_N3C0 - k10_C * CaM_N3C1
-        JC02_N3(t) = k02_C * Ca * CaM_N3C0 - k20_C * CaM_N3C2
-        JC13_N3(t) = k13_C * Ca * CaM_N3C1 - k31_C * CaM_N3C3
-        JC23_N3(t) = k23_C * Ca * CaM_N3C2 - k32_C * CaM_N3C3
+        JN01_C0(t) = 2 * kon1_N * Ca * CaM_N0C0 - koff1_N * CaM_N1C0
+        JN12_C0(t) = kon2_N * Ca * CaM_N1C0 - 2 * koff2_N * CaM_N2C0
+        JN01_C1(t) = 2 * kon1_N * Ca * CaM_N0C1 - koff1_N * CaM_N1C1
+        JN12_C1(t) = kon2_N * Ca * CaM_N1C1 - 2 * koff2_N * CaM_N2C1
+        JN01_C2(t) = 2 * kon1_N * Ca * CaM_N0C2 - koff1_N * CaM_N1C2
+        JN12_C2(t) = kon2_N * Ca * CaM_N1C2 - 2 * koff2_N * CaM_N2C2
+        JC01_N0(t) = 2 * kon1_C * Ca * CaM_N0C0 - koff1_C * CaM_N0C1
+        JC12_N0(t) = kon2_C * Ca * CaM_N0C1 - 2 * koff2_C * CaM_N0C2
+        JC01_N1(t) = 2 * kon1_C * Ca * CaM_N1C0 - koff1_C * CaM_N1C1
+        JC12_N1(t) = kon2_C * Ca * CaM_N1C1 - 2 * koff2_C * CaM_N1C2
+        JC01_N2(t) = 2 * kon1_C * Ca * CaM_N2C0 - koff1_C * CaM_N2C1
+        JC12_N2(t) = kon2_C * Ca * CaM_N2C1 - 2 * koff2_C * CaM_N2C2
 
         D(Ca) ~ -kon_DMn * DMn_s * Ca + koff_DMn * CaDMn_s +
                 -kon_DMn * DMn_f * Ca + koff_DMn * CaDMn_f +
                 -kon_PP * PP * Ca + koff_PP * CaPP +
                 -kon_D * OGB5 * Ca + koff_D * CaOGB5 +
-                -JN01_C0(t) - JN02_C0(t) - JN13_C0(t) - JN23_C0(t) +
-                -JN01_C1(t) - JN02_C1(t) - JN13_C1(t) - JN23_C1(t) +
-                -JN01_C2(t) - JN02_C2(t) - JN13_C2(t) - JN23_C2(t) +
-                -JN01_C3(t) - JN02_C3(t) - JN13_C3(t) - JN23_C3(t) +
-                -JC01_N0(t) - JC02_N0(t) - JC13_N0(t) - JC23_N0(t) +
-                -JC01_N1(t) - JC02_N1(t) - JC13_N1(t) - JC23_N1(t) +
-                -JC01_N2(t) - JC02_N2(t) - JC13_N2(t) - JC23_N2(t) +
-                -JC01_N3(t) - JC02_N3(t) - JC13_N3(t) - JC23_N3(t)
+                -JN01_C0(t) - JN12_C0(t) - JN01_C1(t) - JN12_C1(t) - JN01_C2(t) - JN12_C2(t) +
+                -JC01_N0(t) - JC12_N0(t) - JC01_N1(t) - JC12_N1(t) - JC01_N2(t) - JC12_N2(t)
         D(DMn_s) ~ -kon_DMn * DMn_s * Ca + koff_DMn * CaDMn_s - DMn_s / τ_s
         D(CaDMn_s) ~ kon_DMn * DMn_s * Ca - koff_DMn * CaDMn_s - CaDMn_s / τ_s
         D(DMn_f) ~ -kon_DMn * DMn_f * Ca + koff_DMn * CaDMn_f - DMn_f / τ_f
@@ -207,22 +172,15 @@ calmodulin_faas = @Model begin
         D(CaPP) ~ kon_PP * PP * Ca - koff_PP * CaPP + CaDMn_s / τ_s + CaDMn_f / τ_f
         D(OGB5) ~ -kon_D * OGB5 * Ca + koff_D * CaOGB5
         D(CaOGB5) ~ kon_D * OGB5 * Ca - koff_D * CaOGB5
-        D(CaM_N0C0) ~ -JN01_C0(t) - JN02_C0(t) - JC01_N0(t) - JC02_N0(t)
-        D(CaM_N1C0) ~ JN01_C0(t) - JN13_C0(t) - JC01_N1(t) - JC02_N1(t)
-        D(CaM_N2C0) ~ JN02_C0(t) - JN23_C0(t) - JC01_N2(t) - JC02_N2(t)
-        D(CaM_N3C0) ~ JN13_C0(t) + JN23_C0(t) - JC01_N3(t) - JC02_N3(t)
-        D(CaM_N0C1) ~ -JN01_C1(t) - JN02_C1(t) + JC01_N0(t) - JC13_N0(t)
-        D(CaM_N1C1) ~ JN01_C1(t) - JN13_C1(t) + JC01_N1(t) - JC13_N1(t)
-        D(CaM_N2C1) ~ JN02_C1(t) - JN23_C1(t) + JC01_N2(t) - JC13_N2(t)
-        D(CaM_N3C1) ~ JN13_C1(t) + JN23_C1(t) + JC01_N3(t) - JC13_N3(t)
-        D(CaM_N0C2) ~ -JN01_C2(t) - JN02_C2(t) + JC02_N0(t) - JC23_N0(t)
-        D(CaM_N1C2) ~ JN01_C2(t) - JN13_C2(t) + JC02_N1(t) - JC23_N1(t)
-        D(CaM_N2C2) ~ JN02_C2(t) - JN23_C2(t) + JC02_N2(t) - JC23_N2(t)
-        D(CaM_N3C2) ~ JN13_C2(t) + JN23_C2(t) + JC02_N3(t) - JC23_N3(t)
-        D(CaM_N0C3) ~ -JN01_C3(t) - JN02_C3(t) + JC13_N0(t) + JC23_N0(t)
-        D(CaM_N1C3) ~ JN01_C3(t) - JN13_C3(t) + JC13_N1(t) + JC23_N1(t)
-        D(CaM_N2C3) ~ JN02_C3(t) - JN23_C3(t) + JC13_N2(t) + JC23_N2(t)
-        D(CaM_N3C3) ~ JN13_C3(t) + JN23_C3(t) + JC13_N3(t) + JC23_N3(t)
+        D(CaM_N0C0) ~ -JN01_C0(t) - JC01_N0(t)
+        D(CaM_N1C0) ~ JN01_C0(t) - JN12_C0(t) - JC01_N1(t)
+        D(CaM_N2C0) ~ JN12_C0(t) - JC01_N2(t)
+        D(CaM_N0C1) ~ -JN01_C1(t) + JC01_N0(t) - JC12_N0(t)
+        D(CaM_N1C1) ~ JN01_C1(t) - JN12_C1(t) + JC01_N1(t) - JC12_N1(t)
+        D(CaM_N2C1) ~ JN12_C1(t) + JC01_N2(t) - JC12_N2(t)
+        D(CaM_N0C2) ~ -JN01_C2(t) + JC12_N0(t)
+        D(CaM_N1C2) ~ JN01_C2(t) - JN12_C2(t) + JC12_N1(t)
+        D(CaM_N2C2) ~ JN12_C2(t) + JC12_N2(t)
     end
 
     @initialDE begin
@@ -237,19 +195,12 @@ calmodulin_faas = @Model begin
         CaM_N0C0 = CaM₀[1]
         CaM_N1C0 = CaM₀[2]
         CaM_N2C0 = CaM₀[3]
-        CaM_N3C0 = CaM₀[4]
-        CaM_N0C1 = CaM₀[5]
-        CaM_N1C1 = CaM₀[6]
-        CaM_N2C1 = CaM₀[7]
-        CaM_N3C1 = CaM₀[8]
-        CaM_N0C2 = CaM₀[9]
-        CaM_N1C2 = CaM₀[10]
-        CaM_N2C2 = CaM₀[11]
-        CaM_N3C2 = CaM₀[12]
-        CaM_N0C3 = CaM₀[13]
-        CaM_N1C3 = CaM₀[14]
-        CaM_N2C3 = CaM₀[15]
-        CaM_N3C3 = CaM₀[16]
+        CaM_N0C1 = CaM₀[4]
+        CaM_N1C1 = CaM₀[5]
+        CaM_N2C1 = CaM₀[6]
+        CaM_N0C2 = CaM₀[7]
+        CaM_N1C2 = CaM₀[8]
+        CaM_N2C2 = CaM₀[9]
         Ca = Ca_free
     end
 
@@ -260,6 +211,7 @@ end
 
 calmodulin_faas = set_solver_config(calmodulin_faas; alg = SOLVER, kwargs = (abstol = ABSTOL, reltol = RELTOL))
 
+#=
 calmodulin_faas_shifman_fig1 = @Model begin
     @helpers begin
         calmodulin_equilibrium(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k23_N, k32_N,
@@ -270,28 +222,26 @@ calmodulin_faas_shifman_fig1 = @Model begin
     end
 
     @fixedEffects begin
-        tv_k01_N = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k02_N = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k13_N = RealNumber(log10(0.5072), prior = Normal(log10(0.5072), 3))    # log10(µM^-1 ms^-1)
-        tv_k23_N = RealNumber(log10(0.5), prior = Normal(log10(0.5), 3))          # log10(µM^-1 ms^-1)
-        tv_K01d_N = RealNumber(log10(33.0), prior = Normal(log10(33.0), 3))       # log10(µM)
-        tv_K13d_N = RealNumber(log10(230.0), prior = Normal(log10(230.0), 3))     # log10(µM)
-        tv_K02d_N = RealNumber(log10(3.45), prior = Normal(log10(3.45), 3))       # log10(µM)
-        tv_k01_C = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k02_C = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k13_C = RealNumber(log10(0.00371), prior = Normal(log10(0.00371), 3))  # log10(µM^-1 ms^-1)
-        tv_k23_C = RealNumber(log10(0.118), prior = Normal(log10(0.118), 3))      # log10(µM^-1 ms^-1)
-        tv_K01d_C = RealNumber(log10(18.5), prior = Normal(log10(18.5), 3))       # log10(µM)
-        tv_K02d_C = RealNumber(log10(116.0), prior = Normal(log10(116.0), 3))     # log10(µM)
-        tv_K13d_C = RealNumber(log10(0.38), prior = Normal(log10(0.38), 3))       # log10(µM)
-        μ = RealNumber(-1.0, lower = -5.0, upper = 5.0,
-                        prior = truncated(Normal(-1, 1); lower = -5, upper = 5))                 # 1
-        Ω = RealNumber(1.5, scale = :log,
-                        prior = truncated(Normal(0, 1); lower = 0)) # 1
-        σ_OGB5_F_F0 = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0,
-                                 prior = truncated(Normal(0, 1); lower = 1e-10, upper = 1))  # 1
-        σ_bound_Ca_per_CaM = RealNumber(0.3, scale = :log, lower = 1e-10, upper = 1.0,
-                                        prior = truncated(Normal(0, 1); lower = 1e-10, upper = 1))  # 1
+        tv_k01_N = RealNumber(log10(0.275), upper = log10(60.0), prior = truncated(Normal(log10(0.275), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_k02_N = RealNumber(log10(0.275), upper = log10(60.0), prior = truncated(Normal(log10(0.275), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_k13_N = RealNumber(log10(0.5072), upper = log10(60.0), prior = truncated(Normal(log10(0.5072), 3); upper = log10(60.0)))    # log10(µM^-1 ms^-1)
+        tv_k23_N = RealNumber(log10(0.5), upper = log10(60.0), prior = truncated(Normal(log10(0.5), 3); upper = log10(60.0)))          # log10(µM^-1 ms^-1)
+        tv_K01d_N = RealNumber(log10(33.0), lower = log10(0.001), prior = truncated(Normal(log10(33.0), 3); lower = log10(0.001)))       # log10(µM)
+        tv_Kd_app_N = RealNumber(log10(sqrt(33.0 * 230.0)), lower = log10(1.0), upper = log10(200.0),
+                                 prior = truncated(Normal(log10(sqrt(33.0 * 230.0)), 3); lower = log10(1.0), upper = log10(200.0)))  # log10(µM)
+        tv_K02d_N = RealNumber(log10(3.45), lower = log10(0.001), prior = truncated(Normal(log10(3.45), 3); lower = log10(0.001)))       # log10(µM)
+        tv_k01_C = RealNumber(log10(0.275), upper = log10(60.0), prior = truncated(Normal(log10(0.275), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_k02_C = RealNumber(log10(0.275), upper = log10(60.0), prior = truncated(Normal(log10(0.275), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_k13_C = RealNumber(log10(0.00371), upper = log10(60.0), prior = truncated(Normal(log10(0.00371), 3); upper = log10(60.0)))  # log10(µM^-1 ms^-1)
+        tv_k23_C = RealNumber(log10(0.118), upper = log10(60.0), prior = truncated(Normal(log10(0.118), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_K01d_C = RealNumber(log10(18.5), lower = log10(0.001), prior = truncated(Normal(log10(18.5), 3); lower = log10(0.001)))       # log10(µM)
+        tv_K02d_C = RealNumber(log10(116.0), lower = log10(0.001), prior = truncated(Normal(log10(116.0), 3); lower = log10(0.001)))     # log10(µM)
+        tv_Kd_app_C = RealNumber(log10(sqrt(18.5 * 0.38)), lower = log10(1.0), upper = log10(200.0),
+                                 prior = truncated(Normal(log10(sqrt(18.5 * 0.38)), 3); lower = log10(1.0), upper = log10(200.0)))   # log10(µM)
+        μ = RealNumber(-1.0, lower = -5.0, upper = 5.0)                               # 1
+        Ω = RealNumber(1.5, scale = :log, lower = 1e-10, upper = 5.0)                 # 1
+        σ_OGB5_F_F0 = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0)      # 1
+        σ_bound_Ca_per_CaM = RealNumber(0.3, scale = :log, lower = 1e-10, upper = 1.0)  # 1
     end
 
     @covariates begin
@@ -320,6 +270,8 @@ calmodulin_faas_shifman_fig1 = @Model begin
         kon_PP = kon_DMn
         Kd_D = koff_D / kon_D
 
+        Kd_app_N = 10^tv_Kd_app_N
+
         K01d_N = 10^tv_K01d_N
         k01_N = 10^tv_k01_N
         k10_N = K01d_N * 10^tv_k01_N
@@ -328,13 +280,15 @@ calmodulin_faas_shifman_fig1 = @Model begin
         k02_N = 10^tv_k02_N
         k20_N = K02d_N * 10^tv_k02_N
 
-        K13d_N = 10^tv_K13d_N
+        K13d_N = Kd_app_N^2 / K01d_N
         k13_N = 10^tv_k13_N
         k31_N = K13d_N * 10^tv_k13_N
 
-        K23d_N = K01d_N * K13d_N / K02d_N
+        K23d_N = Kd_app_N^2 / K02d_N
         k23_N = 10^tv_k23_N
         k32_N = K23d_N * 10^tv_k23_N
+
+        Kd_app_C = 10^tv_Kd_app_C
 
         K01d_C = 10^tv_K01d_C
         k01_C = 10^tv_k01_C
@@ -344,11 +298,11 @@ calmodulin_faas_shifman_fig1 = @Model begin
         k02_C = 10^tv_k02_C
         k20_C = K02d_C * 10^tv_k02_C
 
-        K13d_C = 10^tv_K13d_C
+        K13d_C = Kd_app_C^2 / K01d_C
         k13_C = 10^tv_k13_C
         k31_C = K13d_C * 10^tv_k13_C
 
-        K23d_C = K01d_C * K13d_C / K02d_C
+        K23d_C = Kd_app_C^2 / K02d_C
         k23_C = 10^tv_k23_C
         k32_C = K23d_C * 10^tv_k23_C
 
@@ -478,7 +432,9 @@ calmodulin_faas_shifman_fig1 = @Model begin
 end
 
 calmodulin_faas_shifman_fig1 = set_solver_config(calmodulin_faas_shifman_fig1; alg = SOLVER, kwargs = (abstol = ABSTOL, reltol = RELTOL))
+=#
 
+#=
 calmodulin_full = @Model begin
     @helpers begin
         calmodulin_equilibrium(k01_N, k10_N, k02_N, k20_N, k13_N, k31_N, k23_N, k32_N,
@@ -495,30 +451,27 @@ calmodulin_full = @Model begin
     end
 
     @fixedEffects begin
-        tv_k01_N = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k02_N = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k13_N = RealNumber(log10(0.5072), prior = Normal(log10(0.5072), 3))    # log10(µM^-1 ms^-1)
-        tv_k23_N = RealNumber(log10(0.5), prior = Normal(log10(0.5), 3))          # log10(µM^-1 ms^-1)
-        tv_K01d_N = RealNumber(log10(33.0), prior = Normal(log10(33.0), 3))       # log10(µM)
-        tv_K13d_N = RealNumber(log10(230.0), prior = Normal(log10(230.0), 3))     # log10(µM)
-        tv_K02d_N = RealNumber(log10(3.45), prior = Normal(log10(3.45), 3))       # log10(µM)
-        tv_k01_C = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k02_C = RealNumber(log10(0.275), prior = Normal(log10(0.275), 3))      # log10(µM^-1 ms^-1)
-        tv_k13_C = RealNumber(log10(0.00371), prior = Normal(log10(0.00371), 3))  # log10(µM^-1 ms^-1)
-        tv_k23_C = RealNumber(log10(0.118), prior = Normal(log10(0.118), 3))      # log10(µM^-1 ms^-1)
-        tv_K01d_C = RealNumber(log10(18.5), prior = Normal(log10(18.5), 3))       # log10(µM)
-        tv_K02d_C = RealNumber(log10(116.0), prior = Normal(log10(116.0), 3))     # log10(µM)
-        tv_K13d_C = RealNumber(log10(0.38), prior = Normal(log10(0.38), 3))       # log10(µM)
-        μ = RealNumber(-1.0, lower = -5.0, upper = 5.0,
-                        prior = truncated(Normal(-1, 1); lower = -5, upper = 5))                 # 1
-        Ω = RealNumber(1.5, scale = :log,
-                        prior = truncated(Normal(0, 1); lower = 0)) # 1
-        σ_OGB5_F_F0 = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0,
-                                 prior = truncated(Normal(0, 1); lower = 1e-10, upper = 1))  # 1
-        σ_bound_Ca_per_CaM = RealNumber(0.3, scale = :log, lower = 1e-10, upper = 1.0,
-                                        prior = truncated(Normal(0, 1); lower = 1e-10, upper = 1))  # 1
-        σ_Fluo4FF_fraction_bound = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0,
-                                              prior = truncated(Normal(0, 1); lower = 1e-10, upper = 1))  # 1
+        tv_k01_N = RealNumber(log10(0.275), upper = log10(60.0), prior = truncated(Normal(log10(0.275), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_k02_N = RealNumber(log10(0.275), upper = log10(60.0), prior = truncated(Normal(log10(0.275), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_k13_N = RealNumber(log10(0.5072), upper = log10(60.0), prior = truncated(Normal(log10(0.5072), 3); upper = log10(60.0)))    # log10(µM^-1 ms^-1)
+        tv_k23_N = RealNumber(log10(0.5), upper = log10(60.0), prior = truncated(Normal(log10(0.5), 3); upper = log10(60.0)))          # log10(µM^-1 ms^-1)
+        tv_K01d_N = RealNumber(log10(33.0), lower = log10(0.001), prior = truncated(Normal(log10(33.0), 3); lower = log10(0.001)))       # log10(µM)
+        tv_Kd_app_N = RealNumber(log10(sqrt(33.0 * 230.0)), lower = log10(1.0), upper = log10(200.0),
+                                 prior = truncated(Normal(log10(sqrt(33.0 * 230.0)), 3); lower = log10(1.0), upper = log10(200.0)))  # log10(µM)
+        tv_K02d_N = RealNumber(log10(3.45), lower = log10(0.001), prior = truncated(Normal(log10(3.45), 3); lower = log10(0.001)))       # log10(µM)
+        tv_k01_C = RealNumber(log10(0.275), upper = log10(60.0), prior = truncated(Normal(log10(0.275), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_k02_C = RealNumber(log10(0.275), upper = log10(60.0), prior = truncated(Normal(log10(0.275), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_k13_C = RealNumber(log10(0.00371), upper = log10(60.0), prior = truncated(Normal(log10(0.00371), 3); upper = log10(60.0)))  # log10(µM^-1 ms^-1)
+        tv_k23_C = RealNumber(log10(0.118), upper = log10(60.0), prior = truncated(Normal(log10(0.118), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_K01d_C = RealNumber(log10(18.5), lower = log10(0.001), prior = truncated(Normal(log10(18.5), 3); lower = log10(0.001)))       # log10(µM)
+        tv_K02d_C = RealNumber(log10(116.0), lower = log10(0.001), prior = truncated(Normal(log10(116.0), 3); lower = log10(0.001)))     # log10(µM)
+        tv_Kd_app_C = RealNumber(log10(sqrt(18.5 * 0.38)), lower = log10(1.0), upper = log10(200.0),
+                                 prior = truncated(Normal(log10(sqrt(18.5 * 0.38)), 3); lower = log10(1.0), upper = log10(200.0)))   # log10(µM)
+        μ = RealNumber(-1.0, lower = -5.0, upper = 5.0)                               # 1
+        Ω = RealNumber(1.5, scale = :log, lower = 1e-10, upper = 5.0)                 # 1
+        σ_OGB5_F_F0 = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0)      # 1
+        σ_bound_Ca_per_CaM = RealNumber(0.3, scale = :log, lower = 1e-10, upper = 1.0)  # 1
+        σ_Fluo4FF_fraction_bound = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0)  # 1
     end
 
     @covariates begin
@@ -555,6 +508,8 @@ calmodulin_full = @Model begin
         Kd_D = koff_D / kon_D
         koff_Fluo4FF = Kd_Fluo4FF * kon_Fluo4FF
 
+        Kd_app_N = 10^tv_Kd_app_N
+
         K01d_N = 10^tv_K01d_N
         k01_N = N_lobe * 10^tv_k01_N
         k10_N = K01d_N * 10^tv_k01_N
@@ -563,13 +518,15 @@ calmodulin_full = @Model begin
         k02_N = N_lobe * 10^tv_k02_N
         k20_N = K02d_N * 10^tv_k02_N
 
-        K13d_N = 10^tv_K13d_N
+        K13d_N = Kd_app_N^2 / K01d_N
         k13_N = N_lobe * 10^tv_k13_N
         k31_N = K13d_N * 10^tv_k13_N
 
-        K23d_N = K01d_N * K13d_N / K02d_N
+        K23d_N = Kd_app_N^2 / K02d_N
         k23_N = N_lobe * 10^tv_k23_N
         k32_N = K23d_N * 10^tv_k23_N
+
+        Kd_app_C = 10^tv_Kd_app_C
 
         K01d_C = 10^tv_K01d_C
         k01_C = C_lobe * 10^tv_k01_C
@@ -579,11 +536,11 @@ calmodulin_full = @Model begin
         k02_C = C_lobe * 10^tv_k02_C
         k20_C = K02d_C * 10^tv_k02_C
 
-        K13d_C = 10^tv_K13d_C
+        K13d_C = Kd_app_C^2 / K01d_C
         k13_C = C_lobe * 10^tv_k13_C
         k31_C = K13d_C * 10^tv_k13_C
 
-        K23d_C = K01d_C * K13d_C / K02d_C
+        K23d_C = Kd_app_C^2 / K02d_C
         k23_C = C_lobe * 10^tv_k23_C
         k32_C = K23d_C * 10^tv_k23_C
 
@@ -724,6 +681,167 @@ calmodulin_full = @Model begin
 end
 
 calmodulin_full = set_solver_config(calmodulin_full; alg = SOLVER, kwargs = (abstol = ABSTOL, reltol = RELTOL))
+=#
+
+calmodulin_full = @Model begin
+    @helpers begin
+        calmodulin_equilibrium(kon1_N, koff1_N, kon2_N, koff2_N, kon1_C, koff1_C, kon2_C, koff2_C, Ca, total) =
+            calmodulin_equilibrium(kon1_N, koff1_N, kon2_N, koff2_N, kon1_C, koff1_C, kon2_C, koff2_C, Ca, total)
+        N_lobe_calcium(CaM) = N_lobe_calcium(CaM)
+        C_lobe_calcium(CaM) = C_lobe_calcium(CaM)
+    end
+
+    @fixedEffects begin
+        tv_kon1_N = RealNumber(log10(0.77), upper = log10(60.0), prior = truncated(Normal(log10(0.77), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_kon2_N = RealNumber(log10(32.0), upper = log10(60.0), prior = truncated(Normal(log10(32.0), 3); upper = log10(60.0)))      # log10(µM^-1 ms^-1)
+        tv_Kd1_N = RealNumber(log10(193.0), lower = log10(0.001), prior = truncated(Normal(log10(193.0), 3); lower = log10(0.001)))    # log10(µM)
+        tv_Kd_app_N = RealNumber(log10(sqrt(193.0 * 0.788)), lower = log10(1.0), upper = log10(200.0),
+                                 prior = truncated(Normal(log10(sqrt(193.0 * 0.788)), 3); lower = log10(1.0), upper = log10(200.0)))  # log10(µM)
+        tv_kon1_C = RealNumber(log10(0.084), upper = log10(60.0), prior = truncated(Normal(log10(0.084), 3); upper = log10(60.0)))    # log10(µM^-1 ms^-1)
+        tv_kon2_C = RealNumber(log10(0.025), upper = log10(60.0), prior = truncated(Normal(log10(0.025), 3); upper = log10(60.0)))    # log10(µM^-1 ms^-1)
+        tv_Kd1_C = RealNumber(log10(27.8), lower = log10(0.001), prior = truncated(Normal(log10(27.8), 3); lower = log10(0.001)))      # log10(µM)
+        tv_Kd_app_C = RealNumber(log10(sqrt(27.8 * 0.264)), lower = log10(1.0), upper = log10(200.0),
+                                 prior = truncated(Normal(log10(sqrt(27.8 * 0.264)), 3); lower = log10(1.0), upper = log10(200.0)))   # log10(µM)
+        μ = RealNumber(-1.0, lower = -5.0, upper = 5.0)                               # 1
+        Ω = RealNumber(1.5, scale = :log, lower = 1e-10, upper = 5.0)                 # 1
+        σ_OGB5_F_F0 = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0)      # 1
+        σ_N_lobe_occupancy = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0)  # 1
+        σ_C_lobe_occupancy = RealNumber(0.05, scale = :log, lower = 1e-10, upper = 1.0)  # 1
+    end
+
+    @covariates begin
+        t = Covariate()                                         # ms
+        f_frac = ConstantCovariate(; constant_on = :series)     # 1
+        τ_f = ConstantCovariate(; constant_on = :series)        # ms
+        τ_s = ConstantCovariate(; constant_on = :series)        # ms
+        kon_DMn = ConstantCovariate(; constant_on = :series)    # µM^-1 ms^-1
+        koff_DMn = ConstantCovariate(; constant_on = :series)   # ms^-1
+        Kd_DMn = ConstantCovariate(; constant_on = :series)     # µM
+        koff_PP = ConstantCovariate(; constant_on = :series)    # ms^-1
+        DMn_t = ConstantCovariate(; constant_on = :series)      # µM
+        CaM_t = ConstantCovariate(; constant_on = :series)      # µM
+        OGB5_t = ConstantCovariate(; constant_on = :series)     # µM
+        Ca_free = ConstantCovariate(; constant_on = :series)    # µM
+        kon_D = ConstantCovariate(; constant_on = :series)      # µM^-1 ms^-1
+        koff_D = ConstantCovariate(; constant_on = :series)     # ms^-1
+        Fmax_Fmin = ConstantCovariate(; constant_on = :series)  # 1
+    end
+
+    @randomEffects begin
+        U = RandomEffect(LogitNormal(μ, Ω); column = :U_group)  # 1
+    end
+
+    @preDifferentialEquation begin
+        kon_PP = kon_DMn
+        Kd_D = koff_D / kon_D
+
+        Kd_app_N = 10^tv_Kd_app_N
+
+        Kd1_N = 10^tv_Kd1_N
+        kon1_N = 10^tv_kon1_N
+        koff1_N = Kd1_N * 10^tv_kon1_N
+
+        Kd2_N = Kd_app_N^2 / Kd1_N
+        kon2_N = 10^tv_kon2_N
+        koff2_N = Kd2_N * 10^tv_kon2_N
+
+        Kd_app_C = 10^tv_Kd_app_C
+
+        Kd1_C = 10^tv_Kd1_C
+        kon1_C = 10^tv_kon1_C
+        koff1_C = Kd1_C * 10^tv_kon1_C
+
+        Kd2_C = Kd_app_C^2 / Kd1_C
+        kon2_C = 10^tv_kon2_C
+        koff2_C = Kd2_C * 10^tv_kon2_C
+
+        DMn₀ = (Kd_DMn * DMn_t) / (Ca_free + Kd_DMn)
+        CaDMn₀ = DMn_t - DMn₀
+        OGB5₀ = (Kd_D * OGB5_t) / (Ca_free + Kd_D)
+        CaOGB5₀ = OGB5_t - OGB5₀
+        CaM₀ = calmodulin_equilibrium(kon1_N, koff1_N, kon2_N, koff2_N, kon1_C, koff1_C, kon2_C, koff2_C, Ca_free, CaM_t)
+
+        DMn_s₀_u = (1 - f_frac) * DMn₀ * U
+        CaDMn_s₀_u = (1 - f_frac) * CaDMn₀ * U
+        DMn_f₀_u = f_frac * DMn₀ * U
+        CaDMn_f₀_u = f_frac * CaDMn₀ * U
+    end
+
+    @DifferentialEquation begin
+        JN01_C0(t) = 2 * kon1_N * Ca * CaM_N0C0 - koff1_N * CaM_N1C0
+        JN12_C0(t) = kon2_N * Ca * CaM_N1C0 - 2 * koff2_N * CaM_N2C0
+        JN01_C1(t) = 2 * kon1_N * Ca * CaM_N0C1 - koff1_N * CaM_N1C1
+        JN12_C1(t) = kon2_N * Ca * CaM_N1C1 - 2 * koff2_N * CaM_N2C1
+        JN01_C2(t) = 2 * kon1_N * Ca * CaM_N0C2 - koff1_N * CaM_N1C2
+        JN12_C2(t) = kon2_N * Ca * CaM_N1C2 - 2 * koff2_N * CaM_N2C2
+        JC01_N0(t) = 2 * kon1_C * Ca * CaM_N0C0 - koff1_C * CaM_N0C1
+        JC12_N0(t) = kon2_C * Ca * CaM_N0C1 - 2 * koff2_C * CaM_N0C2
+        JC01_N1(t) = 2 * kon1_C * Ca * CaM_N1C0 - koff1_C * CaM_N1C1
+        JC12_N1(t) = kon2_C * Ca * CaM_N1C1 - 2 * koff2_C * CaM_N1C2
+        JC01_N2(t) = 2 * kon1_C * Ca * CaM_N2C0 - koff1_C * CaM_N2C1
+        JC12_N2(t) = kon2_C * Ca * CaM_N2C1 - 2 * koff2_C * CaM_N2C2
+
+        D(Ca) ~ -kon_DMn * DMn_s * Ca + koff_DMn * CaDMn_s +
+                -kon_DMn * DMn_f * Ca + koff_DMn * CaDMn_f +
+                -kon_PP * PP * Ca + koff_PP * CaPP +
+                -kon_D * OGB5 * Ca + koff_D * CaOGB5 +
+                -JN01_C0(t) - JN12_C0(t) - JN01_C1(t) - JN12_C1(t) - JN01_C2(t) - JN12_C2(t) +
+                -JC01_N0(t) - JC12_N0(t) - JC01_N1(t) - JC12_N1(t) - JC01_N2(t) - JC12_N2(t)
+        D(DMn_s) ~ -kon_DMn * DMn_s * Ca + koff_DMn * CaDMn_s - DMn_s / τ_s
+        D(CaDMn_s) ~ kon_DMn * DMn_s * Ca - koff_DMn * CaDMn_s - CaDMn_s / τ_s
+        D(DMn_f) ~ -kon_DMn * DMn_f * Ca + koff_DMn * CaDMn_f - DMn_f / τ_f
+        D(CaDMn_f) ~ kon_DMn * DMn_f * Ca - koff_DMn * CaDMn_f - CaDMn_f / τ_f
+        D(PP) ~ -kon_PP * PP * Ca + koff_PP * CaPP +
+                2 * DMn_s / τ_s + 2 * DMn_f / τ_f + CaDMn_s / τ_s + CaDMn_f / τ_f
+        D(CaPP) ~ kon_PP * PP * Ca - koff_PP * CaPP + CaDMn_s / τ_s + CaDMn_f / τ_f
+        D(OGB5) ~ -kon_D * OGB5 * Ca + koff_D * CaOGB5
+        D(CaOGB5) ~ kon_D * OGB5 * Ca - koff_D * CaOGB5
+        D(CaM_N0C0) ~ -JN01_C0(t) - JC01_N0(t)
+        D(CaM_N1C0) ~ JN01_C0(t) - JN12_C0(t) - JC01_N1(t)
+        D(CaM_N2C0) ~ JN12_C0(t) - JC01_N2(t)
+        D(CaM_N0C1) ~ -JN01_C1(t) + JC01_N0(t) - JC12_N0(t)
+        D(CaM_N1C1) ~ JN01_C1(t) - JN12_C1(t) + JC01_N1(t) - JC12_N1(t)
+        D(CaM_N2C1) ~ JN12_C1(t) + JC01_N2(t) - JC12_N2(t)
+        D(CaM_N0C2) ~ -JN01_C2(t) + JC12_N0(t)
+        D(CaM_N1C2) ~ JN01_C2(t) - JN12_C2(t) + JC12_N1(t)
+        D(CaM_N2C2) ~ JN12_C2(t) + JC12_N2(t)
+    end
+
+    @initialDE begin
+        DMn_s = DMn_s₀_u
+        CaDMn_s = CaDMn_s₀_u
+        DMn_f = DMn_f₀_u
+        CaDMn_f = CaDMn_f₀_u
+        PP = 0.0
+        CaPP = 0.0
+        OGB5 = OGB5₀
+        CaOGB5 = CaOGB5₀
+        CaM_N0C0 = CaM₀[1]
+        CaM_N1C0 = CaM₀[2]
+        CaM_N2C0 = CaM₀[3]
+        CaM_N0C1 = CaM₀[4]
+        CaM_N1C1 = CaM₀[5]
+        CaM_N2C1 = CaM₀[6]
+        CaM_N0C2 = CaM₀[7]
+        CaM_N1C2 = CaM₀[8]
+        CaM_N2C2 = CaM₀[9]
+        Ca = Ca_free
+    end
+
+    @formulas begin
+        OGB5_F_F0 ~ Normal((OGB5(t) + Fmax_Fmin * CaOGB5(t)) / (OGB5₀ + Fmax_Fmin * CaOGB5₀), σ_OGB5_F_F0)
+        N_lobe_occupancy ~ Normal(N_lobe_calcium([CaM_N0C0(t), CaM_N1C0(t), CaM_N2C0(t),
+                                                  CaM_N0C1(t), CaM_N1C1(t), CaM_N2C1(t),
+                                                  CaM_N0C2(t), CaM_N1C2(t), CaM_N2C2(t)]) / (2 * CaM_t),
+                                  σ_N_lobe_occupancy)
+        C_lobe_occupancy ~ Normal(C_lobe_calcium([CaM_N0C0(t), CaM_N1C0(t), CaM_N2C0(t),
+                                                  CaM_N0C1(t), CaM_N1C1(t), CaM_N2C1(t),
+                                                  CaM_N0C2(t), CaM_N1C2(t), CaM_N2C2(t)]) / (2 * CaM_t),
+                                  σ_C_lobe_occupancy)
+    end
+end
+
+calmodulin_full = set_solver_config(calmodulin_full; alg = SOLVER, kwargs = (abstol = ABSTOL, reltol = RELTOL))
 
 function faas_data()
     df = select(load_paper_data("Faas_etal_2011"), :series, :x => :t, :y => :OGB5_F_F0,
@@ -742,6 +860,7 @@ function faas_data()
                 :OGB5N_koff_per_ms => :koff_D,
                 :OGB5N_Fmax_over_Fmin => :Fmax_Fmin)
     return insertcols!(df, :U_group => string.(df.series), :bound_Ca_per_CaM => missing, :Fluo4FF_fraction_bound => missing,
+                       :N_lobe_occupancy => missing, :C_lobe_occupancy => missing,
                        :Fluo4FF_t => 0.0, :Kd_Fluo4FF => 13.0, :kon_Fluo4FF => 1.0,
                        :Ca_total => 0.0, :N_lobe => 1.0, :C_lobe => 1.0,
                        :experiment => experiment_id("Faas_etal_2011"))
@@ -756,6 +875,7 @@ function shifman_data()
                      OGB5_F_F0 = missing,
                      bound_Ca_per_CaM = ifelse.(free, d.y, missing),
                      Fluo4FF_fraction_bound = ifelse.(free, missing, d.y),
+                     N_lobe_occupancy = missing, C_lobe_occupancy = missing,
                      f_frac = 0.0, τ_f = 1.0, τ_s = 1.0, kon_DMn = 0.0, koff_DMn = 0.0, Kd_DMn = 1.0, koff_PP = 0.0,
                      DMn_t = 0.0, CaM_t = d.CaM_uM, OGB5_t = 0.0, Ca_free = ifelse.(free, d.x, 0.0),
                      kon_D = 1.0, koff_D = 1.0, Fmax_Fmin = 1.0,
@@ -765,13 +885,28 @@ function shifman_data()
                      experiment = experiment_id.(ifelse.(free, "Shifman_etal_2006_Fig1B", "Shifman_etal_2006_Fig3D")))
 end
 
-function calmodulin_data(version = 3)
-    df = vcat(faas_data(), shifman_data())
-    return df[df.experiment .<= version, :]
+function vanscyoc_data()
+    fig3 = load_paper_data("VanScyoc_etal_2002", "FIG3")
+    phe = sort(fig3[(fig3.panel .== "C") .& (fig3.series .== "Phe"), :], :x)
+    tyr = sort(fig3[(fig3.panel .== "C") .& (fig3.series .== "Tyr"), :], :x)
+    return DataFrame(series = string.("VanScyoc_FIG3C_", 1:nrow(phe)), U_group = "VanScyoc", t = 0.001,
+                     OGB5_F_F0 = missing, bound_Ca_per_CaM = missing, Fluo4FF_fraction_bound = missing,
+                     N_lobe_occupancy = 1 .- phe.y, C_lobe_occupancy = tyr.y,
+                     f_frac = 0.0, τ_f = 1.0, τ_s = 1.0, kon_DMn = 0.0, koff_DMn = 0.0, Kd_DMn = 1.0, koff_PP = 0.0,
+                     DMn_t = 0.0, CaM_t = phe.CaM_uM, OGB5_t = 0.0, Ca_free = 1e6 .* sqrt.(phe.x .* tyr.x),
+                     kon_D = 1.0, koff_D = 1.0, Fmax_Fmin = 1.0,
+                     Fluo4FF_t = 0.0, Kd_Fluo4FF = 13.0, kon_Fluo4FF = 1.0,
+                     Ca_total = 0.0, N_lobe = 1.0, C_lobe = 1.0,
+                     experiment = experiment_id("VanScyoc_etal_2002_Fig3C"))
 end
 
-datamodel(version = 3, df = calmodulin_data(version)) =
-    DataModel((calmodulin_faas, calmodulin_faas_shifman_fig1, calmodulin_full)[version], df; primary_id = :series, time_col = :t)
+function calmodulin_data(model = "calmodulin_full")
+    df = vcat(faas_data(), shifman_data(), vanscyoc_data())
+    return df[in(experiment_id.(MODEL_EXPERIMENTS[Symbol(model)])).(df.experiment), :]
+end
+
+datamodel(model = "calmodulin_full", df = calmodulin_data(model)) =
+    DataModel(getfield(@__MODULE__, Symbol(model)), df; primary_id = :series, time_col = :t)
 
 function shifman_grid(df, n)
     grid = mapreduce(vcat, groupby(df, [:experiment, :N_lobe, :C_lobe, :CaM_t, :Fluo4FF_t]); init = df[1:0, :]) do g
@@ -784,6 +919,16 @@ function shifman_grid(df, n)
     return grid
 end
 
+function vanscyoc_grid(df, n)
+    nrow(df) == 0 && return df
+    grid = repeat(df[1:1, :], n)
+    grid.Ca_free = exp10.(range(log10.(extrema(df.Ca_free))..., n))
+    grid.series = string.("VanScyoc_grid_", 1:n)
+    return grid
+end
+
+lobe_rows(df, column, lobe) = DataFrame(Ca_free = df.Ca_free, occupancy = df[!, column], lobe = lobe)
+
 with_prediction(df, pred, outcome) =
     innerjoin(dropmissing(df, outcome),
               select(pred[pred.observable .== outcome, :], :id => :series, :time => :t, :prediction);
@@ -792,9 +937,11 @@ with_prediction(df, pred, outcome) =
 calmodulin_variant(N_lobe, C_lobe) = N_lobe == 0 ? "CaM-C^WT" : C_lobe == 0 ? "CaM-N^WT" : "WT CaM"
 
 function plot_calmodulin(res; re_mode = :ebe, n = 100)
-    version = maximum(get_df(get_data_model(res)).experiment)
-    shifman = filter(:experiment => <=(version), shifman_data())
-    df = vcat(faas_data(), shifman_grid(shifman, n))
+    experiments = EXPERIMENTS[unique(get_df(get_data_model(res)).experiment)]
+    fitted(e) = EXPERIMENTS[e] in experiments
+    shifman = filter(:experiment => fitted, shifman_data())
+    vanscyoc = filter(:experiment => fitted, vanscyoc_data())
+    df = vcat(faas_data(), shifman_grid(shifman, n), vanscyoc_grid(vanscyoc, n))
     pred = predict(res, df; re_mode)
     faas = with_prediction(df, pred, :OGB5_F_F0)
     faas.prefix = first.(rsplit.(faas.series, "_"; limit = 2))
@@ -805,30 +952,44 @@ function plot_calmodulin(res; re_mode = :ebe, n = 100)
     for d in (curve_3d, data_3d)
         d.variant = calmodulin_variant.(d.N_lobe, d.C_lobe)
     end
+    data_3c = vcat(lobe_rows(vanscyoc, :N_lobe_occupancy, "N-lobe"), lobe_rows(vanscyoc, :C_lobe_occupancy, "C-lobe"))
+    curve_3c = vcat(lobe_rows(with_prediction(df, pred, :N_lobe_occupancy), :prediction, "N-lobe"),
+                    lobe_rows(with_prediction(df, pred, :C_lobe_occupancy), :prediction, "C-lobe"))
 
     data_visual = visual(Scatter, color = :black)
     prediction_visual = visual(Lines, color = :orange)
     fig = Figure(size = (2400, 1200))
+    titles = ["Faas et al. 2011"]
     draw!(fig[1, 1],
           AlgebraOfGraphics.data(faas) * mapping(layout = :prefix, group = :series) *
           (mapping(:t, :OGB5_F_F0) * visual(Lines, color = :black) + mapping(:t, :prediction) * prediction_visual);
           axis = (; xlabel = "t (ms)", ylabel = "OGB-5N F/F₀"), facet = (; linkyaxes = :none))
-    if version >= 2
-        draw!(fig[1, 2],
+    if "Shifman_etal_2006_Fig1B" in experiments
+        push!(titles, "Shifman et al. 2006, Fig 1B")
+        draw!(fig[1, length(titles)],
               AlgebraOfGraphics.data(data_1b) * mapping(:Ca_free, :bound_Ca_per_CaM) * data_visual +
               AlgebraOfGraphics.data(curve_1b) * mapping(:Ca_free, :prediction) * prediction_visual;
               axis = (; xlabel = "[Ca²⁺] free (µM)", ylabel = "bound Ca²⁺ per CaM"))
     end
-    if version >= 3
-        draw!(fig[1, 3],
+    if "Shifman_etal_2006_Fig3D" in experiments
+        push!(titles, "Shifman et al. 2006, Fig 3D")
+        draw!(fig[1, length(titles)],
               (AlgebraOfGraphics.data(data_3d) * mapping(:Ca_total, :Fluo4FF_fraction_bound) * data_visual +
                AlgebraOfGraphics.data(curve_3d) * mapping(:Ca_total, :prediction) * prediction_visual) *
               mapping(row = :variant => sorter("WT CaM", "CaM-N^WT", "CaM-C^WT"));
               axis = (; xlabel = "[Ca²⁺] total (µM)", ylabel = "Fluo4FF fraction bound"))
     end
-    for (i, title) in enumerate(("Faas et al. 2011", "Shifman et al. 2006, Fig 1B", "Shifman et al. 2006, Fig 3D")[1:version])
+    if "VanScyoc_etal_2002_Fig3C" in experiments
+        push!(titles, "VanScyoc et al. 2002, Fig 3C")
+        draw!(fig[1, length(titles)],
+              (AlgebraOfGraphics.data(data_3c) * mapping(:Ca_free, :occupancy) * data_visual +
+               AlgebraOfGraphics.data(curve_3c) * mapping(:Ca_free, :occupancy) * prediction_visual) *
+              mapping(row = :lobe => sorter("N-lobe", "C-lobe"));
+              axis = (; xscale = log10, xlabel = "[Ca²⁺] free (µM)", ylabel = "lobe Ca²⁺ occupancy"))
+    end
+    for (i, title) in enumerate(titles)
         Label(fig[0, i], title; tellwidth = false)
     end
-    version > 1 && colsize!(fig.layout, 1, Relative(0.6))
+    length(titles) > 1 && colsize!(fig.layout, 1, Relative(0.6))
     return fig
 end

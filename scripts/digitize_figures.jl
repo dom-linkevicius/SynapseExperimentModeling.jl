@@ -337,6 +337,52 @@ shifman_fig5 = shifman("Fig5.jpeg";
     axis = (; shifman_axis..., xlabel = "Time (sec)", ylabel = "Autophosphorylated CaMKII\n(normalized)",
             xticks = 0:5:30, yticks = (0:0.2:1, ["0", "0.2", "0.4", "0.6", "0.8", "1.0"])))
 
+## VanScyoc et al. 2002, Biophys J, doi:10.1016/S0006-3495(02)75286-7
+# Fig 3: Ca2+ titrations of 6 µM CaM(1-75) (A), CaM(76-148) (B) and CaM(1-148) (C) at 22 °C,
+# monitored by Phe fluorescence (ex/em 250/280 nm, filled triangles; sites I and II) and Tyr
+# fluorescence (277/320 nm, open triangles; sites III and IV). Image: the journal web page's
+# GIF (3335 x 4239, black and white), converted to PNG. 8 px frames on all four sides with
+# inward ticks; lines are fits. In A and B the Ca2+-independent series sit on a dotted line
+# with their origin offset to -0.1. Open triangles are drawn with ~8 px strokes, and both
+# kinds sit on fit lines, so centres are the template peaks. Each titration point is read at
+# both wavelength pairs, so the two series share their x values (within 1-3 px in A and C).
+# In B's dense mid-titration cluster the filled triangles of the offset row overlap into one
+# band and the open ones crowd each other; the markers no template peak separates are given
+# as fixed centres: the filled ones 29 px below their apexes (the offset of the separate
+# markers' peaks), the open ones at their template peaks below the match threshold.
+vanscyoc_fixed = Dict(
+    ("B", "Phe") => [(1393, 2476), (1427, 2476), (1463, 2476), (1487, 2476), (1517, 2476), (1537, 2482),
+                     (1557, 2476), (1676, 2476), (1702, 2476), (1730, 2476), (1752, 2476)],
+    ("B", "Tyr") => [(1702, 1648), (1730, 1621), (1751, 1608)])
+vanscyoc_x = AxisMap(ticks([444.5, 1145.5, 1846.5, 2546.5], exp10.(-7:-4)); log = true)
+vanscyoc_panel(name, grid, frame, yticks, letter, crop, CaM; axis = (;)) = PlotPanel(;
+    name, grid, frame, crop, margin = 8, frame_width = 900, skip = [letter], conditions = (CaM = CaM, CaM_uM = 6.0, temperature_C = 22.0),
+    x = vanscyoc_x, y = AxisMap(ticks(yticks, 1.0:-0.5:0.0)), axis)
+vanscyoc_fig3 = PaperFigure(;
+    paper = "VanScyoc_etal_2002", image = "Fig3.png", doi = "10.1016/S0006-3495(02)75286-7",
+    description = "Ca2+ titrations of 6 uM CaM(1-75) (A), CaM(76-148) (B) and CaM(1-148) (C) at 22 C, monitored by " *
+                  "Phe fluorescence (ex/em 250/280 nm; sites I and II) and Tyr fluorescence (277/320 nm; sites III and " *
+                  "IV), normalized as (f - fmin)/(fmax - fmin); free Ca2+ from Oregon Green 488 BAPTA-5N. Lines are fits, " *
+                  "not data. In A and B the Ca2+-independent series (Tyr in A, Phe in B) are plotted, and recorded here, " *
+                  "with their origin offset to -0.1",
+    xvar = "Ca_free" => "M", yvar = "normalized_fluorescence" => "1", fontsize = 95, linewidth = 8, ticksize = 40,
+    panels = [vanscyoc_panel("A", (1, 1), (378, 74, 3249, 1265), [161.5, 623.5, 1077.5], (412, 222, 513, 329),
+                             (140, 30, 3334, 1290), "CaM(1-75)"; axis = (; xticklabelsvisible = false)),
+              vanscyoc_panel("B", (2, 1), (378, 1380, 3249, 2571), [1471.5, 1931.5, 2386.5], (418, 1530, 509, 1639),
+                             (140, 1340, 3334, 2600), "CaM(76-148)";
+                             axis = (; xticklabelsvisible = false, ylabel = "Normalized Fluorescence Intensity")),
+              vanscyoc_panel("C", (3, 1), (378, 2711, 3249, 3899), [2806.5, 3307.5, 3803.5], (402, 2877, 497, 2988),
+                             (140, 2670, 3334, 4238), "CaM(1-148)";
+                             axis = (; xlabel = rich("[Calcium] ", subscript("free"))))],
+    series = [MarkerSeries(; name, panel, ink = :black, shape = :triangle, radius = 29, hollow, stroke = 8, locate = :peak,
+                           threshold = 0.75, fixed = get(vanscyoc_fixed, (panel, name), NTuple{2,Float64}[]),
+                           conditions = (ex_nm = ex, em_nm = em), colour = "#000000", label = "")
+              for panel in ("A", "B", "C")
+              for (name, hollow, ex, em) in (("Phe", false, 250.0, 280.0), ("Tyr", true, 277.0, 320.0))],
+    axis = (; ylabel = "", xticks = (exp10.(-7:-3), [rich("10", superscript(string(e))) for e in -7:-3]),
+            xminorticks = [k * exp10(e) for e in -8:-4 for k in 2:9], xminorticksvisible = true,
+            yticks = (0:0.5:1, ["0.0", "0.5", "1.0"])))
+
 ## Digitize the figures named in RUN
 figures = RUN === :all ? [n for n in names(@__MODULE__; all = true)
                           if isdefined(@__MODULE__, n) && getfield(@__MODULE__, n) isa PaperFigure] : RUN

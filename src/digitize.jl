@@ -88,13 +88,14 @@ Base.@kwdef struct PlotPanel
 end
 
 """
-    MarkerSeries(; name, panel, ink, shape = :circle, radius, hollow = false, threshold = 0.45,
+    MarkerSeries(; name, panel, ink, shape = :circle, radius, hollow = false, stroke = 2, threshold = 0.45,
                  locate = :centroid, near = [], fixed = [], conditions = (;), colour, label = name)
 
 A series of separate markers in panel `panel` with experimental `conditions` of its own
 (on top of the panel's), found in the colour test `ink` (a key of
 `INK`) by a template of `shape` (`:circle`, `:square`, `:diamond`, `:triangle` or
-`:triangle_down`) with half-width `radius` pixels; open markers (`hollow`) by its outline. Template-match peaks below
+`:triangle_down`) with half-width `radius` pixels; open markers (`hollow`) by its outline,
+`stroke` pixels wide. Template-match peaks below
 `threshold` times the best match in the panel are dropped. A marker's centre is the
 centroid of its watershed basin (`locate = :centroid`), or the template-match peak itself
 (`:peak`) where markers sit on lines that would pull a centroid off. In figures too small
@@ -111,6 +112,7 @@ Base.@kwdef struct MarkerSeries
     shape::Symbol = :circle
     radius::Int
     hollow::Bool = false
+    stroke::Int = 2
     threshold::Float64 = 0.45
     locate::Symbol = :centroid
     near::Vector{NTuple{2,Float64}} = NTuple{2,Float64}[]
@@ -218,14 +220,15 @@ end
 
 # An open marker is matched by its outline: error bars, caps and fit lines that run through
 # it don't look like an outline, whereas once filled they would match a solid shape. The
-# outline is 2 px wide to tolerate the half-pixel misfits of thin JPEG strokes.
-function marker_template(shape::Symbol, r::Integer; hollow::Bool = false)
+# outline is `stroke` px wide: 2 by default, to tolerate the half-pixel misfits of thin
+# JPEG strokes, wider for markers drawn with thick strokes.
+function marker_template(shape::Symbol, r::Integer; hollow::Bool = false, stroke::Integer = 2)
     t = solid_template(shape, r)
     hollow || return t
-    # pad so the shape has background all round, then keep what is within 2 px of it
+    # pad so the shape has background all round, then keep what is within `stroke` px of it
     p = zeros(size(t) .+ 2)
     p[2:(end - 1), 2:(end - 1)] .= t
-    edge = distance_transform(feature_transform(p .== 0)) .<= 2
+    edge = distance_transform(feature_transform(p .== 0)) .<= stroke
     return (p .* edge)[2:(end - 1), 2:(end - 1)]
 end
 
@@ -319,7 +322,7 @@ end
 function marker_score(mask, panel::PlotPanel, s::MarkerSeries)
     rows, cols = search_region(panel)
     crop = mask[rows, cols]
-    return match_template(Float64.(crop), marker_template(s.shape, s.radius; s.hollow)), crop
+    return match_template(Float64.(crop), marker_template(s.shape, s.radius; s.hollow, s.stroke)), crop
 end
 
 # `s`'s template score as a rival of other series in its ink; a series whose markers are
@@ -385,7 +388,7 @@ to whichever series' template matches it best within its radius.
 function find_markers(mask::AbstractMatrix{Bool}, panel::PlotPanel, s::MarkerSeries; rivals = ())
     rows, cols = search_region(panel)
     score, crop = marker_score(mask, panel, s)
-    template = marker_template(s.shape, s.radius; s.hollow)
+    template = marker_template(s.shape, s.radius; s.hollow, s.stroke)
 
     if isempty(s.near)
         # Marker shapes are degraded where they overlap, so the cut is relative to the best
