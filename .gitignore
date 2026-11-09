@@ -71,7 +71,7 @@ Backup of *.doc*
 *.log
 *.lot
 *.fls
-*.out
+##*.out
 *.toc
 *.fmt
 *.fot
