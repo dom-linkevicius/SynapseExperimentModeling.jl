@@ -1,0 +1,699 @@
+calmodulin_faas_shifman_fig1, diag metric, chain 1: started 2026-11-06 18:19:11
+iteration 1/1500 (adapt), 522.3 s, tree depth missing, steps missing, step size missing
+iteration 2/1500 (adapt), 558.8 s, tree depth 2, steps 3, step size 0.0001953125
+iteration 3/1500 (adapt), 569.7 s, tree depth 0, steps 1, step size 0.0030770646550592144
+iteration 4/1500 (adapt), 582.6 s, tree depth 2, steps 3, step size 0.0006010478994522816
+iteration 5/1500 (adapt), 588.9 s, tree depth 1, steps 1, step size 0.0010032625770728999
+iteration 6/1500 (adapt), 595.3 s, tree depth 1, steps 1, step size 0.001953125
+iteration 7/1500 (adapt), 608.5 s, tree depth 1, steps 3, step size 0.0041156082926256205
+iteration 8/1500 (adapt), 615.0 s, tree depth 1, steps 1, step size 0.003253531484498138
+iteration 9/1500 (adapt), 622.4 s, tree depth 0, steps 1, step size 0.007144676765720564
+iteration 10/1500 (adapt), 648.9 s, tree depth 3, steps 7, step size 0.0006851380365459397
+iteration 11/1500 (adapt), 675.3 s, tree depth 3, steps 7, step size 7.950710918781846e-5
+iteration 12/1500 (adapt), 727.4 s, tree depth 4, steps 15, step size 0.00017174640950753814
+iteration 13/1500 (adapt), 753.2 s, tree depth 3, steps 7, step size 9.466639269416594e-5
+iteration 14/1500 (adapt), 766.2 s, tree depth 2, steps 3, step size 0.0002047709187567957
+iteration 15/1500 (adapt), 792.2 s, tree depth 3, steps 7, step size 0.0004088620970990422
+iteration 16/1500 (adapt), 817.7 s, tree depth 3, steps 7, step size 9.6378233974444e-5
+iteration 17/1500 (adapt), 830.1 s, tree depth 2, steps 3, step size 0.00020925253475043642
+iteration 18/1500 (adapt), 855.2 s, tree depth 3, steps 7, step size 0.00038987405663098106
+iteration 19/1500 (adapt), 880.5 s, tree depth 3, steps 7, step size 9.610277184942985e-5
+iteration 20/1500 (adapt), 906.2 s, tree depth 3, steps 7, step size 0.00020402209733450232
+iteration 21/1500 (adapt), 919.0 s, tree depth 2, steps 3, step size 0.0002810237487265618
+iteration 22/1500 (adapt), 944.3 s, tree depth 3, steps 7, step size 0.0003557988432159865
+iteration 23/1500 (adapt), 1045.9 s, tree depth 5, steps 31, step size 0.00010761816372572659
+iteration 24/1500 (adapt), 1071.7 s, tree depth 3, steps 7, step size 0.00013575088888063982
+iteration 25/1500 (adapt), 1097.4 s, tree depth 3, steps 7, step size 0.00025956178102897685
+iteration 26/1500 (adapt), 1200.3 s, tree depth 5, steps 31, step size 0.0001933072801979085
+iteration 27/1500 (adapt), 1252.6 s, tree depth 4, steps 15, step size 6.735430044382828e-5
+iteration 28/1500 (adapt), 1305.3 s, tree depth 4, steps 15, step size 0.0001394584600218798
+iteration 29/1500 (adapt), 1357.8 s, tree depth 4, steps 15, step size 0.00026506829764185016
+iteration 30/1500 (adapt), 1370.9 s, tree depth 2, steps 3, step size 0.0004891122256414974
+iteration 31/1500 (adapt), 1384.1 s, tree depth 2, steps 3, step size 0.0004277612067790502
+iteration 32/1500 (adapt), 1397.3 s, tree depth 2, steps 3, step size 0.0006459274736288014
+iteration 33/1500 (adapt), 1410.4 s, tree depth 2, steps 3, step size 0.00020623100478289887
+iteration 34/1500 (adapt), 1436.5 s, tree depth 3, steps 7, step size 0.0003959876576874934
+iteration 35/1500 (adapt), 1462.9 s, tree depth 3, steps 7, step size 0.0002559386648939628
+iteration 36/1500 (adapt), 1489.5 s, tree depth 3, steps 7, step size 0.00035104200653365814
+iteration 37/1500 (adapt), 1515.7 s, tree depth 3, steps 7, step size 8.25346919745297e-5
+iteration 38/1500 (adapt), 1567.8 s, tree depth 4, steps 15, step size 0.00016008767920655664
+iteration 39/1500 (adapt), 1581.1 s, tree depth 2, steps 3, step size 0.00020714155919746181
+iteration 40/1500 (adapt), 1606.8 s, tree depth 3, steps 7, step size 0.0003163363672966452
+iteration 41/1500 (adapt), 1633.1 s, tree depth 3, steps 7, step size 0.00013027103472690958
+iteration 42/1500 (adapt), 1659.3 s, tree depth 3, steps 7, step size 0.0002298485682131161
+iteration 43/1500 (adapt), 1672.3 s, tree depth 2, steps 3, step size 0.00020172192475220016
+iteration 44/1500 (adapt), 1685.7 s, tree depth 2, steps 3, step size 0.0003383262835579932
+iteration 45/1500 (adapt), 1737.9 s, tree depth 4, steps 15, step size 0.00021419316527815897
+iteration 46/1500 (adapt), 1763.5 s, tree depth 3, steps 7, step size 9.740080761615803e-5
+iteration 47/1500 (adapt), 1776.5 s, tree depth 2, steps 3, step size 0.00016692644651843556
+iteration 48/1500 (adapt), 1789.7 s, tree depth 2, steps 3, step size 0.00028122764632659445
+iteration 49/1500 (adapt), 1803.0 s, tree depth 2, steps 3, step size 0.00023718593621968685
+iteration 50/1500 (adapt), 1816.1 s, tree depth 2, steps 3, step size 0.0002606873869930558
+iteration 51/1500 (adapt), 1829.5 s, tree depth 2, steps 3, step size 0.0002444655690192205
+iteration 52/1500 (adapt), 1842.7 s, tree depth 2, steps 3, step size 0.0002688789641694028
+iteration 53/1500 (adapt), 1895.1 s, tree depth 4, steps 15, step size 0.00023060789135941808
+iteration 54/1500 (adapt), 1947.7 s, tree depth 4, steps 15, step size 7.568475313951171e-5
+iteration 55/1500 (adapt), 2000.0 s, tree depth 4, steps 15, step size 0.00012775678860162188
+iteration 56/1500 (adapt), 2026.1 s, tree depth 3, steps 7, step size 0.00013571067993515434
+iteration 57/1500 (adapt), 2039.0 s, tree depth 2, steps 3, step size 0.00015958003387865987
+iteration 58/1500 (adapt), 2052.4 s, tree depth 2, steps 3, step size 0.0002476635437680809
+iteration 59/1500 (adapt), 2065.3 s, tree depth 2, steps 3, step size 0.0002155245549584342
+iteration 60/1500 (adapt), 2091.3 s, tree depth 3, steps 7, step size 0.0002708539105078673
+iteration 61/1500 (adapt), 2116.9 s, tree depth 3, steps 7, step size 7.67242728403485e-5
+iteration 62/1500 (adapt), 2129.7 s, tree depth 2, steps 3, step size 0.00013289411640798868
+iteration 63/1500 (adapt), 2142.6 s, tree depth 2, steps 3, step size 0.0002202154320490808
+iteration 64/1500 (adapt), 2194.8 s, tree depth 4, steps 15, step size 0.0002486369525996023
+iteration 65/1500 (adapt), 2220.9 s, tree depth 3, steps 7, step size 7.426472845890224e-5
+iteration 66/1500 (adapt), 2247.1 s, tree depth 3, steps 7, step size 0.00012597164262011313
+iteration 67/1500 (adapt), 2260.2 s, tree depth 2, steps 3, step size 0.00018130759650053182
+iteration 68/1500 (adapt), 2312.5 s, tree depth 4, steps 15, step size 0.0002505725041554077
+iteration 69/1500 (adapt), 2338.9 s, tree depth 3, steps 7, step size 7.529036490420973e-5
+iteration 70/1500 (adapt), 2391.2 s, tree depth 4, steps 15, step size 0.0001234228888529998
+iteration 71/1500 (adapt), 2417.2 s, tree depth 3, steps 7, step size 0.000125029929334832
+iteration 72/1500 (adapt), 2470.5 s, tree depth 4, steps 15, step size 0.00016514169977369393
+iteration 73/1500 (adapt), 2497.8 s, tree depth 3, steps 7, step size 8.928120623654306e-5
+iteration 74/1500 (adapt), 2524.7 s, tree depth 3, steps 7, step size 0.00014143197319602097
+iteration 75/1500 (adapt), 2632.7 s, tree depth 5, steps 31, step size 0.00017209970652941125
+iteration 76/1500 (adapt), 2659.7 s, tree depth 3, steps 7, step size 9.116859696290305e-5
+iteration 77/1500 (adapt), 2767.9 s, tree depth 5, steps 31, step size 0.00015308358997856861
+iteration 78/1500 (adapt), 2794.9 s, tree depth 3, steps 7, step size 0.0001185795114917048
+iteration 79/1500 (adapt), 2849.5 s, tree depth 4, steps 15, step size 0.00018059820042651658
+iteration 80/1500 (adapt), 2862.9 s, tree depth 2, steps 3, step size 0.00010495099088700472
+iteration 81/1500 (adapt), 2876.6 s, tree depth 2, steps 3, step size 0.0001682885330058994
+iteration 82/1500 (adapt), 2890.1 s, tree depth 2, steps 3, step size 0.00022645812577866916
+iteration 83/1500 (adapt), 2903.7 s, tree depth 2, steps 3, step size 0.00021606230666090993
+iteration 84/1500 (adapt), 2917.4 s, tree depth 2, steps 3, step size 0.0002195664906352658
+iteration 85/1500 (adapt), 2944.0 s, tree depth 3, steps 7, step size 0.00020962217661788383
+iteration 86/1500 (adapt), 2970.8 s, tree depth 3, steps 7, step size 8.099666318399745e-5
+iteration 87/1500 (adapt), 2997.8 s, tree depth 3, steps 7, step size 0.00012585437101867512
+iteration 88/1500 (adapt), 3025.1 s, tree depth 3, steps 7, step size 0.00016554298759139305
+iteration 89/1500 (adapt), 3038.4 s, tree depth 2, steps 3, step size 0.000154106293755571
+iteration 90/1500 (adapt), 3148.5 s, tree depth 5, steps 31, step size 0.00020453553824297
+iteration 91/1500 (adapt), 3161.9 s, tree depth 2, steps 3, step size 0.00010121486243987296
+iteration 92/1500 (adapt), 3216.3 s, tree depth 4, steps 15, step size 0.00015279967700069808
+iteration 93/1500 (adapt), 3323.4 s, tree depth 5, steps 31, step size 8.548840116770144e-5
+iteration 94/1500 (adapt), 3350.7 s, tree depth 3, steps 7, step size 0.00013869241570167468
+iteration 95/1500 (adapt), 3377.4 s, tree depth 3, steps 7, step size 0.0002240522681293913
+iteration 96/1500 (adapt), 3391.1 s, tree depth 2, steps 3, step size 0.00036043946195545674
+iteration 97/1500 (adapt), 3418.0 s, tree depth 3, steps 7, step size 0.0005774786855473222
+iteration 98/1500 (adapt), 3473.0 s, tree depth 4, steps 15, step size 0.0009214962680663932
+iteration 99/1500 (adapt), 3486.9 s, tree depth 2, steps 3, step size 0.0014646628246308532
+iteration 100/1500 (adapt), 3501.1 s, tree depth 1, steps 3, step size 0.0023189948806141866
+iteration 101/1500 (adapt), 3514.8 s, tree depth 2, steps 3, step size 0.001990300508785552
+iteration 102/1500 (adapt), 3571.0 s, tree depth 4, steps 15, step size 0.003135390747848314
+iteration 103/1500 (adapt), 3578.0 s, tree depth 0, steps 1, step size 0.049396736256019085
+iteration 104/1500 (adapt), 3592.2 s, tree depth 2, steps 3, step size 0.009648742517536493
+iteration 105/1500 (adapt), 3703.4 s, tree depth 5, steps 31, step size 0.001293258510205247
+iteration 106/1500 (adapt), 3927.6 s, tree depth 6, steps 63, step size 0.0009526187177248739
+iteration 107/1500 (adapt), 4039.2 s, tree depth 5, steps 31, step size 0.0007477275285718163
+iteration 108/1500 (adapt), 4095.9 s, tree depth 4, steps 15, step size 0.0009400053972908971
+iteration 109/1500 (adapt), 4123.8 s, tree depth 3, steps 7, step size 0.0016539348145982599
+iteration 110/1500 (adapt), 4151.6 s, tree depth 3, steps 7, step size 0.002396434126195126
+iteration 111/1500 (adapt), 4179.1 s, tree depth 3, steps 7, step size 0.0012369566821683103
+iteration 112/1500 (adapt), 4206.8 s, tree depth 3, steps 7, step size 0.0020556393934593738
+iteration 113/1500 (adapt), 4234.5 s, tree depth 3, steps 7, step size 0.0019016065710201926
+iteration 114/1500 (adapt), 4262.5 s, tree depth 3, steps 7, step size 0.0018069588659067682
+iteration 115/1500 (adapt), 4317.5 s, tree depth 4, steps 15, step size 0.0018724414948962833
+iteration 116/1500 (adapt), 4428.8 s, tree depth 5, steps 31, step size 0.0004036595697317553
+iteration 117/1500 (adapt), 4484.8 s, tree depth 4, steps 15, step size 0.0008762887401332147
+iteration 118/1500 (adapt), 4513.5 s, tree depth 3, steps 7, step size 0.0015265873750941563
+iteration 119/1500 (adapt), 4626.5 s, tree depth 5, steps 31, step size 0.001688765146966739
+iteration 120/1500 (adapt), 4852.1 s, tree depth 6, steps 63, step size 0.00041748610288142344
+iteration 121/1500 (adapt), 4908.6 s, tree depth 4, steps 15, step size 0.0007401196778027095
+iteration 122/1500 (adapt), 4936.6 s, tree depth 3, steps 7, step size 0.0013051315295129283
+iteration 123/1500 (adapt), 4964.4 s, tree depth 3, steps 7, step size 0.0022323320932779956
+iteration 124/1500 (adapt), 4992.7 s, tree depth 3, steps 7, step size 0.0012958937445797525
+iteration 125/1500 (adapt), 5021.0 s, tree depth 3, steps 7, step size 0.002033250042613989
+iteration 126/1500 (adapt), 5048.5 s, tree depth 3, steps 7, step size 0.0015178847722976132
+iteration 127/1500 (adapt), 5076.2 s, tree depth 3, steps 7, step size 0.0018618359132258982
+iteration 128/1500 (adapt), 5104.0 s, tree depth 3, steps 7, step size 0.001488084176632473
+iteration 129/1500 (adapt), 5131.8 s, tree depth 3, steps 7, step size 0.0018451192872152016
+iteration 130/1500 (adapt), 5159.7 s, tree depth 3, steps 7, step size 0.001672904372239783
+iteration 131/1500 (adapt), 5187.4 s, tree depth 3, steps 7, step size 0.0016412509915672386
+iteration 132/1500 (adapt), 5215.0 s, tree depth 3, steps 7, step size 0.0013382489091004488
+iteration 133/1500 (adapt), 5242.9 s, tree depth 3, steps 7, step size 0.001651887085067327
+iteration 134/1500 (adapt), 5270.6 s, tree depth 3, steps 7, step size 0.001911075325784964
+iteration 135/1500 (adapt), 5298.2 s, tree depth 3, steps 7, step size 0.0016088938135096612
+iteration 136/1500 (adapt), 5326.1 s, tree depth 3, steps 7, step size 0.0014161953314251589
+iteration 137/1500 (adapt), 5353.9 s, tree depth 3, steps 7, step size 0.002127647619255063
+iteration 138/1500 (adapt), 5381.5 s, tree depth 3, steps 7, step size 0.0015992598765344457
+iteration 139/1500 (adapt), 5437.9 s, tree depth 4, steps 15, step size 0.0015845734065876563
+iteration 140/1500 (adapt), 5466.1 s, tree depth 3, steps 7, step size 0.0013385195099538674
+iteration 141/1500 (adapt), 5521.4 s, tree depth 4, steps 15, step size 0.0020430793612882404
+iteration 142/1500 (adapt), 5549.2 s, tree depth 3, steps 7, step size 0.0021720262864554927
+iteration 143/1500 (adapt), 5577.4 s, tree depth 3, steps 7, step size 0.004150586846771525
+iteration 144/1500 (adapt), 5591.9 s, tree depth 2, steps 3, step size 0.007855740255749779
+iteration 145/1500 (adapt), 5606.1 s, tree depth 2, steps 3, step size 0.014730415681891314
+iteration 146/1500 (adapt), 5634.6 s, tree depth 3, steps 7, step size 0.002346119472414688
+iteration 147/1500 (adapt), 5663.0 s, tree depth 3, steps 7, step size 0.0023065581208548632
+iteration 148/1500 (adapt), 5677.2 s, tree depth 2, steps 3, step size 0.003009660939449299
+iteration 149/1500 (adapt), 5734.2 s, tree depth 4, steps 15, step size 0.004136935280430619
+iteration 150/1500 (adapt), 5762.1 s, tree depth 3, steps 7, step size 0.001158384989495991
+iteration 151/1500 (adapt), 5818.2 s, tree depth 4, steps 15, step size 0.00214373521052921
+iteration 152/1500 (adapt), 5875.2 s, tree depth 4, steps 15, step size 0.003934309352680644
+iteration 153/1500 (adapt), 5882.3 s, tree depth 0, steps 1, step size 0.06198335616615686
+iteration 154/1500 (adapt), 5939.6 s, tree depth 4, steps 15, step size 0.012107306865787735
+iteration 155/1500 (adapt), 6051.1 s, tree depth 5, steps 31, step size 0.002887718818889443
+iteration 156/1500 (adapt), 6079.5 s, tree depth 3, steps 7, step size 0.004884756634893481
+iteration 157/1500 (adapt), 7031.4 s, tree depth 8, steps 255, step size 0.009400182228418095
+iteration 158/1500 (adapt), 7143.3 s, tree depth 5, steps 31, step size 0.00447970235196156
+iteration 159/1500 (adapt), 7171.3 s, tree depth 3, steps 7, step size 0.00940912165547841
+iteration 160/1500 (adapt), 7227.8 s, tree depth 4, steps 15, step size 0.020359405714353185
+iteration 161/1500 (adapt), 7252.6 s, tree depth 2, steps 6, step size 0.04469362483694086
+iteration 162/1500 (adapt), 7308.6 s, tree depth 4, steps 15, step size 0.004403958927782839
+iteration 163/1500 (adapt), 7336.7 s, tree depth 3, steps 7, step size 0.009473103920359638
+iteration 164/1500 (adapt), 7350.8 s, tree depth 2, steps 3, step size 0.01665190719723664
+iteration 165/1500 (adapt), 7365.1 s, tree depth 2, steps 3, step size 0.023264698729480945
+iteration 166/1500 (adapt), 7421.8 s, tree depth 4, steps 15, step size 0.004710462010076064
+iteration 167/1500 (adapt), 7659.4 s, tree depth 6, steps 63, step size 0.009419975270700988
+iteration 168/1500 (adapt), 7688.2 s, tree depth 3, steps 7, step size 0.0050364491424909254
+iteration 169/1500 (adapt), 7716.9 s, tree depth 3, steps 7, step size 0.010973156605624557
+iteration 170/1500 (adapt), 7776.5 s, tree depth 4, steps 15, step size 0.023640765491634956
+iteration 171/1500 (adapt), 7807.0 s, tree depth 3, steps 7, step size 0.050329659732765604
+iteration 172/1500 (adapt), 7837.0 s, tree depth 3, steps 7, step size 0.019564888902048494
+iteration 173/1500 (adapt), 7852.2 s, tree depth 2, steps 3, step size 0.04121085008819241
+iteration 174/1500 (adapt), 7867.2 s, tree depth 1, steps 3, step size 0.0857286424270512
+iteration 175/1500 (adapt), 7927.8 s, tree depth 4, steps 15, step size 0.009627618613833013
+iteration 176/1500 (adapt), 7958.1 s, tree depth 3, steps 7, step size 0.019584997317664946
+iteration 177/1500 (adapt), 7988.8 s, tree depth 3, steps 7, step size 0.030571762815197367
+iteration 178/1500 (adapt), 8004.1 s, tree depth 2, steps 3, step size 0.06220429659514481
+iteration 179/1500 (adapt), 8035.5 s, tree depth 3, steps 7, step size 0.019225433517212714
+iteration 180/1500 (adapt), 8066.3 s, tree depth 3, steps 7, step size 0.038752995599621975
+iteration 181/1500 (adapt), 8129.2 s, tree depth 4, steps 15, step size 0.014444552420335956
+iteration 182/1500 (adapt), 8192.4 s, tree depth 4, steps 15, step size 0.028866363082616045
+iteration 183/1500 (adapt), 8223.9 s, tree depth 3, steps 7, step size 0.029813918811599432
+iteration 184/1500 (adapt), 8255.6 s, tree depth 2, steps 7, step size 0.05859689457855983
+iteration 185/1500 (adapt), 8319.4 s, tree depth 4, steps 15, step size 0.018632259376760527
+iteration 186/1500 (adapt), 8351.2 s, tree depth 3, steps 7, step size 0.03608276779231404
+iteration 187/1500 (adapt), 8367.2 s, tree depth 2, steps 3, step size 0.06393292569001095
+iteration 188/1500 (adapt), 8494.9 s, tree depth 5, steps 31, step size 0.00900512789155654
+iteration 189/1500 (adapt), 9556.3 s, tree depth 8, steps 255, step size 0.017158259462125607
+iteration 190/1500 (adapt), 9588.7 s, tree depth 3, steps 7, step size 0.010587557543336273
+iteration 191/1500 (adapt), 9605.2 s, tree depth 2, steps 3, step size 0.02022467793103761
+iteration 192/1500 (adapt), 9671.2 s, tree depth 4, steps 15, step size 0.038258278118467375
+iteration 193/1500 (adapt), 9683.8 s, tree depth 1, steps 2, step size 0.07168811282935697
+iteration 194/1500 (adapt), 9749.9 s, tree depth 4, steps 15, step size 0.011006380435804482
+iteration 195/1500 (adapt), 9783.0 s, tree depth 3, steps 7, step size 0.020437660297705863
+iteration 196/1500 (adapt), 9848.5 s, tree depth 4, steps 15, step size 0.037949867076027335
+iteration 197/1500 (adapt), 9865.0 s, tree depth 1, steps 3, step size 0.06985057079163956
+iteration 198/1500 (adapt), 9931.3 s, tree depth 4, steps 15, step size 0.011314666467800409
+iteration 199/1500 (adapt), 9964.6 s, tree depth 3, steps 7, step size 0.02067606941399751
+iteration 200/1500 (adapt), 9981.2 s, tree depth 2, steps 3, step size 0.03734216259845075
+iteration 201/1500 (adapt), 9997.6 s, tree depth 1, steps 3, step size 0.06760597329236927
+iteration 202/1500 (adapt), 10063.5 s, tree depth 4, steps 15, step size 0.011527926929718345
+iteration 203/1500 (adapt), 10096.8 s, tree depth 3, steps 7, step size 0.02020284124643914
+iteration 204/1500 (adapt), 10228.4 s, tree depth 5, steps 31, step size 0.03629630871433134
+iteration 205/1500 (adapt), 10261.8 s, tree depth 3, steps 7, step size 0.027335393520985258
+iteration 206/1500 (adapt), 10294.5 s, tree depth 3, steps 7, step size 0.024633217922160826
+iteration 207/1500 (adapt), 10327.8 s, tree depth 3, steps 7, step size 0.04186740640366243
+iteration 208/1500 (adapt), 10361.0 s, tree depth 3, steps 7, step size 0.025397987143511824
+iteration 209/1500 (adapt), 10377.5 s, tree depth 2, steps 3, step size 0.030684316063831197
+iteration 210/1500 (adapt), 10393.8 s, tree depth 2, steps 3, step size 0.030164983600850407
+iteration 211/1500 (adapt), 10427.1 s, tree depth 3, steps 7, step size 0.018645237535622833
+iteration 212/1500 (adapt), 10558.6 s, tree depth 5, steps 31, step size 0.028257775503369588
+iteration 213/1500 (adapt), 10624.4 s, tree depth 4, steps 15, step size 0.00909584801141345
+iteration 214/1500 (adapt), 10690.5 s, tree depth 4, steps 15, step size 0.015243403437716175
+iteration 215/1500 (adapt), 10723.4 s, tree depth 3, steps 7, step size 0.017466372646271582
+iteration 216/1500 (adapt), 10756.2 s, tree depth 3, steps 7, step size 0.023347889209356952
+iteration 217/1500 (adapt), 10789.6 s, tree depth 3, steps 7, step size 0.025101059404500012
+iteration 218/1500 (adapt), 10855.5 s, tree depth 4, steps 15, step size 0.013974953716256658
+iteration 219/1500 (adapt), 10921.7 s, tree depth 4, steps 15, step size 0.016566305863067163
+iteration 220/1500 (adapt), 10954.7 s, tree depth 3, steps 7, step size 0.020030871830912386
+iteration 221/1500 (adapt), 11020.6 s, tree depth 4, steps 15, step size 0.01638198424292982
+iteration 222/1500 (adapt), 11087.1 s, tree depth 4, steps 15, step size 0.010630661049773123
+iteration 223/1500 (adapt), 11153.3 s, tree depth 4, steps 15, step size 0.015440920669015567
+iteration 224/1500 (adapt), 11219.3 s, tree depth 4, steps 15, step size 0.016505208940241822
+iteration 225/1500 (adapt), 11285.0 s, tree depth 4, steps 15, step size 0.016954366800684833
+iteration 226/1500 (adapt), 11317.9 s, tree depth 3, steps 7, step size 0.014399720226709553
+iteration 227/1500 (adapt), 11383.2 s, tree depth 4, steps 15, step size 0.021374473563587123
+iteration 228/1500 (adapt), 11449.7 s, tree depth 4, steps 15, step size 0.011903080195229456
+iteration 229/1500 (adapt), 11482.4 s, tree depth 3, steps 7, step size 0.016818271001618253
+iteration 230/1500 (adapt), 11744.9 s, tree depth 6, steps 63, step size 0.0220534016305974
+iteration 231/1500 (adapt), 11809.7 s, tree depth 4, steps 15, step size 0.01261081705183831
+iteration 232/1500 (adapt), 11875.0 s, tree depth 4, steps 15, step size 0.020818673597695056
+iteration 233/1500 (adapt), 11940.7 s, tree depth 4, steps 15, step size 0.03424114592512422
+iteration 234/1500 (adapt), 11973.4 s, tree depth 3, steps 7, step size 0.022689063235516307
+iteration 235/1500 (adapt), 12006.5 s, tree depth 3, steps 7, step size 0.02024282347122913
+iteration 236/1500 (adapt), 12072.3 s, tree depth 4, steps 15, step size 0.03165572204441119
+iteration 237/1500 (adapt), 12138.1 s, tree depth 4, steps 15, step size 0.014171979857315465
+iteration 238/1500 (adapt), 12171.0 s, tree depth 3, steps 7, step size 0.020954737573616496
+iteration 239/1500 (adapt), 12204.1 s, tree depth 3, steps 7, step size 0.020900759782670038
+iteration 240/1500 (adapt), 12237.0 s, tree depth 3, steps 7, step size 0.032850139466874206
+iteration 241/1500 (adapt), 12302.5 s, tree depth 4, steps 15, step size 0.018612029526128275
+iteration 242/1500 (adapt), 12335.5 s, tree depth 3, steps 7, step size 0.01517230466963845
+iteration 243/1500 (adapt), 12368.0 s, tree depth 3, steps 7, step size 0.020100658661924214
+iteration 244/1500 (adapt), 12400.6 s, tree depth 3, steps 7, step size 0.017078592029980844
+iteration 245/1500 (adapt), 12433.4 s, tree depth 3, steps 7, step size 0.020817169561653776
+iteration 246/1500 (adapt), 12466.4 s, tree depth 3, steps 7, step size 0.017906269538044
+iteration 247/1500 (adapt), 12498.5 s, tree depth 3, steps 7, step size 0.01662077571397654
+iteration 248/1500 (adapt), 13020.0 s, tree depth 7, steps 127, step size 0.01891482350472365
+iteration 249/1500 (adapt), 13084.7 s, tree depth 4, steps 15, step size 0.01165459178529027
+iteration 250/1500 (adapt), 13116.8 s, tree depth 3, steps 7, step size 0.01816111694012131
+iteration 251/1500 (adapt), 13181.3 s, tree depth 4, steps 15, step size 0.027447818586874596
+iteration 252/1500 (adapt), 13189.2 s, tree depth 0, steps 1, step size 0.04330672307387918
+iteration 253/1500 (adapt), 13197.4 s, tree depth 0, steps 1, step size 0.11074791910272415
+iteration 254/1500 (adapt), 13205.4 s, tree depth 0, steps 1, step size 0.012620961935571605
+iteration 255/1500 (adapt), 13237.3 s, tree depth 3, steps 7, step size 0.0010782426021097172
+iteration 256/1500 (adapt), 13253.5 s, tree depth 2, steps 3, step size 0.0014284747533005063
+iteration 257/1500 (adapt), 13269.7 s, tree depth 2, steps 3, step size 0.0023476176212534994
+iteration 258/1500 (adapt), 13294.4 s, tree depth 2, steps 5, step size 0.004384605761067906
+iteration 259/1500 (adapt), 13326.9 s, tree depth 3, steps 7, step size 0.0025472715123967663
+iteration 260/1500 (adapt), 13391.4 s, tree depth 4, steps 15, step size 0.00036123050589607854
+iteration 261/1500 (adapt), 13522.4 s, tree depth 5, steps 31, step size 0.0006940445268925648
+iteration 262/1500 (adapt), 13589.1 s, tree depth 4, steps 15, step size 0.0014224519534828367
+iteration 263/1500 (adapt), 13605.5 s, tree depth 2, steps 3, step size 0.0031535914037375155
+iteration 264/1500 (adapt), 13621.7 s, tree depth 2, steps 3, step size 0.007033278737506344
+iteration 265/1500 (adapt), 13630.4 s, tree depth 0, steps 1, step size 0.015684648850732397
+iteration 266/1500 (adapt), 13663.1 s, tree depth 3, steps 7, step size 0.0015408977829013126
+iteration 267/1500 (adapt), 13796.0 s, tree depth 5, steps 31, step size 0.0005404625938282547
+iteration 268/1500 (adapt), 13929.2 s, tree depth 5, steps 31, step size 0.0007232158062555488
+iteration 269/1500 (adapt), 13962.9 s, tree depth 3, steps 7, step size 0.0016271275269312223
+iteration 270/1500 (adapt), 13979.9 s, tree depth 2, steps 3, step size 0.0035111864422171356
+iteration 271/1500 (adapt), 14005.4 s, tree depth 2, steps 5, step size 0.006074699818242562
+iteration 272/1500 (adapt), 14071.6 s, tree depth 4, steps 15, step size 0.000731373938614547
+iteration 273/1500 (adapt), 14138.6 s, tree depth 4, steps 15, step size 0.0015507137024026727
+iteration 274/1500 (adapt), 14206.0 s, tree depth 4, steps 15, step size 0.003283914209422962
+iteration 275/1500 (adapt), 14240.1 s, tree depth 3, steps 7, step size 0.004863991052897784
+iteration 276/1500 (adapt), 14307.4 s, tree depth 4, steps 15, step size 0.0015422809381986685
+iteration 277/1500 (adapt), 14341.2 s, tree depth 3, steps 7, step size 0.002814242061254894
+iteration 278/1500 (adapt), 14442.9 s, tree depth 4, steps 23, step size 0.004017934137464212
+iteration 279/1500 (adapt), 14578.4 s, tree depth 5, steps 31, step size 0.0008863614811099204
+iteration 280/1500 (adapt), 14646.6 s, tree depth 4, steps 15, step size 0.001752625528242155
+iteration 281/1500 (adapt), 14680.8 s, tree depth 3, steps 7, step size 0.0028136208793692564
+iteration 282/1500 (adapt), 14748.1 s, tree depth 4, steps 15, step size 0.0027206683774329277
+iteration 283/1500 (adapt), 14816.5 s, tree depth 4, steps 15, step size 0.0017985182934059111
+iteration 284/1500 (adapt), 14884.8 s, tree depth 4, steps 15, step size 0.0021516403962093403
+iteration 285/1500 (adapt), 14953.2 s, tree depth 4, steps 15, step size 0.001980704524107243
+iteration 286/1500 (adapt), 15021.4 s, tree depth 4, steps 15, step size 0.00241634170307541
+iteration 287/1500 (adapt), 15088.6 s, tree depth 4, steps 15, step size 0.0018732049961437062
+iteration 288/1500 (adapt), 15122.7 s, tree depth 3, steps 7, step size 0.002477832206683369
+iteration 289/1500 (adapt), 15258.4 s, tree depth 5, steps 31, step size 0.002795146594471849
+iteration 290/1500 (adapt), 15394.6 s, tree depth 5, steps 31, step size 0.0007170248978782199
+iteration 291/1500 (adapt), 15530.1 s, tree depth 5, steps 31, step size 0.0012184640899868646
+iteration 292/1500 (adapt), 15800.7 s, tree depth 6, steps 63, step size 0.0009648474408141709
+iteration 293/1500 (adapt), 15868.5 s, tree depth 4, steps 15, step size 0.0006870694368012037
+iteration 294/1500 (adapt), 15936.0 s, tree depth 4, steps 15, step size 0.0012293181318048924
+iteration 295/1500 (adapt), 16003.5 s, tree depth 4, steps 15, step size 0.0011906938205951813
+iteration 296/1500 (adapt), 16071.0 s, tree depth 4, steps 15, step size 0.0008948962182901403
+iteration 297/1500 (adapt), 16138.8 s, tree depth 4, steps 15, step size 0.0010758519138596588
+iteration 298/1500 (adapt), 16273.5 s, tree depth 5, steps 31, step size 0.0007121123310663925
+iteration 299/1500 (adapt), 16409.0 s, tree depth 5, steps 31, step size 0.000687696999284022
+iteration 300/1500 (adapt), 16477.4 s, tree depth 4, steps 15, step size 0.0007034190095252038
+iteration 301/1500 (adapt), 17013.3 s, tree depth 7, steps 127, step size 0.0007803028411318146
+iteration 302/1500 (adapt), 17270.4 s, tree depth 6, steps 63, step size 0.00036442050828423334
+iteration 303/1500 (adapt), 17335.0 s, tree depth 4, steps 15, step size 0.00048221110537499017
+iteration 304/1500 (adapt), 17367.0 s, tree depth 3, steps 7, step size 0.0007270057607898794
+iteration 305/1500 (adapt), 17399.0 s, tree depth 3, steps 7, step size 0.0011236425791015115
+iteration 306/1500 (adapt), 17431.1 s, tree depth 3, steps 7, step size 0.0011178275773581045
+iteration 307/1500 (adapt), 17495.4 s, tree depth 4, steps 15, step size 0.001030862233541273
+iteration 308/1500 (adapt), 17560.3 s, tree depth 4, steps 15, step size 0.0005526500588526226
+iteration 309/1500 (adapt), 17592.5 s, tree depth 3, steps 7, step size 0.0005874079806088284
+iteration 310/1500 (adapt), 21401.9 s, tree depth 9, steps 887, step size 0.0009231509858589426
+iteration 311/1500 (adapt), 21434.0 s, tree depth 3, steps 7, step size 0.0014814263032899766
+iteration 312/1500 (adapt), 21449.8 s, tree depth 2, steps 3, step size 0.0026649101763044757
+iteration 313/1500 (adapt), 21466.0 s, tree depth 2, steps 3, step size 0.004759943993100202
+iteration 314/1500 (adapt), 21482.2 s, tree depth 1, steps 3, step size 0.008443349911669864
+iteration 315/1500 (adapt), 21513.9 s, tree depth 3, steps 7, step size 0.0016907652187589746
+iteration 316/1500 (adapt), 21530.0 s, tree depth 2, steps 3, step size 0.0029964131168493157
+iteration 317/1500 (adapt), 21546.4 s, tree depth 2, steps 3, step size 0.005275240126541172
+iteration 318/1500 (adapt), 21558.5 s, tree depth 1, steps 2, step size 0.00922729422710691
+iteration 319/1500 (adapt), 21590.8 s, tree depth 3, steps 7, step size 0.0019134921308461522
+iteration 320/1500 (adapt), 21722.2 s, tree depth 5, steps 31, step size 0.003344274654017715
+iteration 321/1500 (adapt), 21755.7 s, tree depth 3, steps 7, step size 0.005808777215642456
+iteration 322/1500 (adapt), 21788.9 s, tree depth 3, steps 7, step size 0.003034985443629621
+iteration 323/1500 (adapt), 21822.4 s, tree depth 3, steps 7, step size 0.004823878816157572
+iteration 324/1500 (adapt), 21855.6 s, tree depth 3, steps 7, step size 0.003032254487237314
+iteration 325/1500 (adapt), 21888.7 s, tree depth 3, steps 7, step size 0.004232060667010529
+iteration 326/1500 (adapt), 21921.9 s, tree depth 3, steps 7, step size 0.0030380977008049466
+iteration 327/1500 (adapt), 21954.7 s, tree depth 3, steps 7, step size 0.004423357936089806
+iteration 328/1500 (adapt), 21987.7 s, tree depth 3, steps 7, step size 0.004214583530674186
+iteration 329/1500 (adapt), 22054.5 s, tree depth 4, steps 15, step size 0.0021340820979076423
+iteration 330/1500 (adapt), 22087.6 s, tree depth 3, steps 7, step size 0.002955077662489425
+iteration 331/1500 (adapt), 22120.8 s, tree depth 3, steps 7, step size 0.003948891848747673
+iteration 332/1500 (adapt), 22187.7 s, tree depth 4, steps 15, step size 0.0017023905971748205
+iteration 333/1500 (adapt), 22253.5 s, tree depth 4, steps 15, step size 0.0021983896000214373
+iteration 334/1500 (adapt), 22320.0 s, tree depth 4, steps 15, step size 0.001766710019863412
+iteration 335/1500 (adapt), 22387.0 s, tree depth 4, steps 15, step size 0.0022950671494904986
+iteration 336/1500 (adapt), 22452.8 s, tree depth 4, steps 15, step size 0.0016823111976731057
+iteration 337/1500 (adapt), 22519.1 s, tree depth 4, steps 15, step size 0.002029187698418479
+iteration 338/1500 (adapt), 22585.7 s, tree depth 4, steps 15, step size 0.0017275055996279801
+iteration 339/1500 (adapt), 22619.1 s, tree depth 3, steps 7, step size 0.0022014948405835112
+iteration 340/1500 (adapt), 22652.1 s, tree depth 3, steps 7, step size 0.002968407869817118
+iteration 341/1500 (adapt), 22718.3 s, tree depth 4, steps 15, step size 0.001997213864018906
+iteration 342/1500 (adapt), 22784.4 s, tree depth 4, steps 15, step size 0.002192633399206883
+iteration 343/1500 (adapt), 22817.2 s, tree depth 3, steps 7, step size 0.0016939089841213305
+iteration 344/1500 (adapt), 23081.3 s, tree depth 6, steps 63, step size 0.0022790667820970544
+iteration 345/1500 (adapt), 23148.0 s, tree depth 4, steps 15, step size 0.0010213604814930076
+iteration 346/1500 (adapt), 23180.9 s, tree depth 3, steps 7, step size 0.0014285581796114769
+iteration 347/1500 (adapt), 23213.6 s, tree depth 3, steps 7, step size 0.001646964983849536
+iteration 348/1500 (adapt), 23246.6 s, tree depth 3, steps 7, step size 0.0017561683570442288
+iteration 349/1500 (adapt), 23280.3 s, tree depth 3, steps 7, step size 0.0016782280410082046
+iteration 350/1500 (adapt), 23313.6 s, tree depth 3, steps 7, step size 0.0013557213701000594
+iteration 351/1500 (adapt), 23346.6 s, tree depth 3, steps 7, step size 0.0016702638996789864
+iteration 352/1500 (adapt), 23379.3 s, tree depth 3, steps 7, step size 0.0013881612190721241
+iteration 353/1500 (adapt), 23511.4 s, tree depth 5, steps 31, step size 0.001485907874276452
+iteration 354/1500 (adapt), 23577.2 s, tree depth 4, steps 15, step size 0.0006306538644533901
+iteration 355/1500 (adapt), 23643.1 s, tree depth 4, steps 15, step size 0.0008595693508067174
+iteration 356/1500 (adapt), 23675.9 s, tree depth 3, steps 7, step size 0.0011285454659353434
+iteration 357/1500 (adapt), 23708.8 s, tree depth 3, steps 7, step size 0.0015332687576524622
+iteration 358/1500 (adapt), 23742.2 s, tree depth 3, steps 7, step size 0.0014139496087892203
+iteration 359/1500 (adapt), 23775.8 s, tree depth 3, steps 7, step size 0.0012098184275907784
+iteration 360/1500 (adapt), 24038.7 s, tree depth 6, steps 63, step size 0.001395558082853104
+iteration 361/1500 (adapt), 24071.6 s, tree depth 3, steps 7, step size 0.000944491666917102
+iteration 362/1500 (adapt), 24104.0 s, tree depth 3, steps 7, step size 0.0014965309754760953
+iteration 363/1500 (adapt), 24169.4 s, tree depth 4, steps 15, step size 0.0023628214660910323
+iteration 364/1500 (adapt), 24185.7 s, tree depth 2, steps 3, step size 0.003717573026889913
+iteration 365/1500 (adapt), 24202.4 s, tree depth 2, steps 3, step size 0.005829035193346273
+iteration 366/1500 (adapt), 24210.4 s, tree depth 0, steps 1, step size 0.009108921889686724
+iteration 367/1500 (adapt), 24243.5 s, tree depth 3, steps 7, step size 0.0025511034818858497
+iteration 368/1500 (adapt), 24259.9 s, tree depth 2, steps 3, step size 0.0039851332534156115
+iteration 369/1500 (adapt), 24280.3 s, tree depth 2, steps 4, step size 0.0062048611755266495
+iteration 370/1500 (adapt), 24345.8 s, tree depth 4, steps 15, step size 0.0019281962775633697
+iteration 371/1500 (adapt), 24378.6 s, tree depth 3, steps 7, step size 0.0014568223431577678
+iteration 372/1500 (adapt), 24411.1 s, tree depth 3, steps 7, step size 0.0021115578525062024
+iteration 373/1500 (adapt), 24476.8 s, tree depth 4, steps 15, step size 0.002239211438642057
+iteration 374/1500 (adapt), 24542.4 s, tree depth 4, steps 15, step size 0.0013806454282732665
+iteration 375/1500 (adapt), 24673.3 s, tree depth 5, steps 31, step size 0.0014049136336156342
+iteration 376/1500 (adapt), 24706.1 s, tree depth 3, steps 7, step size 0.0010267726073039522
+iteration 377/1500 (adapt), 24738.8 s, tree depth 3, steps 7, step size 0.001551024796973408
+iteration 378/1500 (adapt), 24999.8 s, tree depth 6, steps 63, step size 0.0015233145533624527
+iteration 379/1500 (adapt), 25031.9 s, tree depth 3, steps 7, step size 0.0017337486326791062
+iteration 380/1500 (adapt), 25064.6 s, tree depth 3, steps 7, step size 0.002651004420635522
+iteration 381/1500 (adapt), 25097.7 s, tree depth 3, steps 7, step size 0.0034025854773722403
+iteration 382/1500 (adapt), 25163.3 s, tree depth 4, steps 15, step size 0.005195244935725706
+iteration 383/1500 (adapt), 25196.1 s, tree depth 3, steps 7, step size 0.0019451477372669538
+iteration 384/1500 (adapt), 25228.6 s, tree depth 3, steps 7, step size 0.0026694752313457817
+iteration 385/1500 (adapt), 25261.1 s, tree depth 3, steps 7, step size 0.0033171687317485317
+iteration 386/1500 (adapt), 25293.9 s, tree depth 3, steps 7, step size 0.0022735096542497732
+iteration 387/1500 (adapt), 25326.0 s, tree depth 3, steps 7, step size 0.0026594743692623176
+iteration 388/1500 (adapt), 25358.8 s, tree depth 3, steps 7, step size 0.0021758040278607653
+iteration 389/1500 (adapt), 25391.3 s, tree depth 3, steps 7, step size 0.0016634211749423733
+iteration 390/1500 (adapt), 25424.1 s, tree depth 3, steps 7, step size 0.0022119417143828335
+iteration 391/1500 (adapt), 25456.9 s, tree depth 3, steps 7, step size 0.002294685021355163
+iteration 392/1500 (adapt), 25490.3 s, tree depth 3, steps 7, step size 0.0016237245425942477
+iteration 393/1500 (adapt), 25522.8 s, tree depth 3, steps 7, step size 0.0019038718804441153
+iteration 394/1500 (adapt), 25555.4 s, tree depth 3, steps 7, step size 0.0017604766980801035
+iteration 395/1500 (adapt), 25620.8 s, tree depth 4, steps 15, step size 0.0020935981263636755
+iteration 396/1500 (adapt), 25686.2 s, tree depth 4, steps 15, step size 0.00111578608094238
+iteration 397/1500 (adapt), 25752.1 s, tree depth 4, steps 15, step size 0.001402305809656618
+iteration 398/1500 (adapt), 25784.8 s, tree depth 3, steps 7, step size 0.001450302618014471
+iteration 399/1500 (adapt), 25817.7 s, tree depth 3, steps 7, step size 0.0017290969426075433
+iteration 400/1500 (adapt), 25850.3 s, tree depth 3, steps 7, step size 0.0015706460170852627
+iteration 401/1500 (adapt), 25883.1 s, tree depth 3, steps 7, step size 0.0017780858920110555
+iteration 402/1500 (adapt), 25915.6 s, tree depth 3, steps 7, step size 0.0019920140955866357
+iteration 403/1500 (adapt), 25948.6 s, tree depth 3, steps 7, step size 0.0017582752377490313
+iteration 404/1500 (adapt), 25981.1 s, tree depth 3, steps 7, step size 0.0017254900473086642
+iteration 405/1500 (adapt), 26046.4 s, tree depth 4, steps 15, step size 0.0016215247669152703
+iteration 406/1500 (adapt), 26111.5 s, tree depth 4, steps 15, step size 0.0010522169786705054
+iteration 407/1500 (adapt), 26176.9 s, tree depth 4, steps 15, step size 0.0011036221188891128
+iteration 408/1500 (adapt), 26307.4 s, tree depth 5, steps 31, step size 0.0008050585364536945
+iteration 409/1500 (adapt), 26373.0 s, tree depth 4, steps 15, step size 0.0006670701880154209
+iteration 410/1500 (adapt), 26405.4 s, tree depth 3, steps 7, step size 0.0007985011770432369
+iteration 411/1500 (adapt), 26470.1 s, tree depth 4, steps 15, step size 0.0010382660277501849
+iteration 412/1500 (adapt), 26600.3 s, tree depth 5, steps 31, step size 0.0008669815950786218
+iteration 413/1500 (adapt), 26665.1 s, tree depth 4, steps 15, step size 0.0006059319076070597
+iteration 414/1500 (adapt), 26697.0 s, tree depth 3, steps 7, step size 0.0008928801358065713
+iteration 415/1500 (adapt), 26729.6 s, tree depth 3, steps 7, step size 0.0013132290180106678
+iteration 416/1500 (adapt), 26761.8 s, tree depth 3, steps 7, step size 0.001927360704798195
+iteration 417/1500 (adapt), 26778.2 s, tree depth 2, steps 3, step size 0.0028227469373485903
+iteration 418/1500 (adapt), 26843.3 s, tree depth 4, steps 15, step size 0.0041255162427360215
+iteration 419/1500 (adapt), 26859.5 s, tree depth 2, steps 3, step size 0.0060171782017325835
+iteration 420/1500 (adapt), 26875.8 s, tree depth 2, steps 3, step size 0.005654791814086624
+iteration 421/1500 (adapt), 26891.8 s, tree depth 2, steps 3, step size 0.005497633676673322
+iteration 422/1500 (adapt), 26924.0 s, tree depth 3, steps 7, step size 0.0036242093053559187
+iteration 423/1500 (adapt), 26956.6 s, tree depth 3, steps 7, step size 0.005266297384546009
+iteration 424/1500 (adapt), 27022.3 s, tree depth 4, steps 15, step size 0.002221046106208938
+iteration 425/1500 (adapt), 27088.4 s, tree depth 4, steps 15, step size 0.0031461218135687445
+iteration 426/1500 (adapt), 27120.9 s, tree depth 3, steps 7, step size 0.004559661107048659
+iteration 427/1500 (adapt), 27150.0 s, tree depth 2, steps 6, step size 0.005912704739572935
+iteration 428/1500 (adapt), 27216.2 s, tree depth 4, steps 15, step size 0.002055300524387458
+iteration 429/1500 (adapt), 27348.2 s, tree depth 5, steps 31, step size 0.0027549838014635734
+iteration 430/1500 (adapt), 27480.7 s, tree depth 5, steps 31, step size 0.0037908477857817387
+iteration 431/1500 (adapt), 27546.4 s, tree depth 4, steps 15, step size 0.0037322109770513015
+iteration 432/1500 (adapt), 27612.4 s, tree depth 4, steps 15, step size 0.004914633609833757
+iteration 433/1500 (adapt), 27645.8 s, tree depth 2, steps 7, step size 0.005695391172946891
+iteration 434/1500 (adapt), 27778.2 s, tree depth 5, steps 31, step size 0.0020718081437802577
+iteration 435/1500 (adapt), 27844.9 s, tree depth 4, steps 15, step size 0.0027129119404943514
+iteration 436/1500 (adapt), 27911.3 s, tree depth 4, steps 15, step size 0.0035580152435567857
+iteration 437/1500 (adapt), 27977.9 s, tree depth 4, steps 15, step size 0.002621602853977176
+iteration 438/1500 (adapt), 28044.1 s, tree depth 4, steps 15, step size 0.0029406645796808983
+iteration 439/1500 (adapt), 28110.5 s, tree depth 4, steps 15, step size 0.0023757443345599257
+iteration 440/1500 (adapt), 28375.0 s, tree depth 6, steps 63, step size 0.00316135850221422
+iteration 441/1500 (adapt), 28441.3 s, tree depth 4, steps 15, step size 0.0018161236063121444
+iteration 442/1500 (adapt), 28507.4 s, tree depth 4, steps 15, step size 0.0025968156500038794
+iteration 443/1500 (adapt), 28573.7 s, tree depth 4, steps 15, step size 0.0037067276451383437
+iteration 444/1500 (adapt), 29633.7 s, tree depth 8, steps 255, step size 0.005217998078146917
+iteration 445/1500 (adapt), 29765.6 s, tree depth 5, steps 31, step size 0.004206945588489828
+iteration 446/1500 (adapt), 29798.5 s, tree depth 3, steps 7, step size 0.0059828921508798295
+iteration 447/1500 (adapt), 29831.7 s, tree depth 3, steps 7, step size 0.0036587044173738625
+iteration 448/1500 (adapt), 29864.9 s, tree depth 3, steps 7, step size 0.00472094602349852
+iteration 449/1500 (adapt), 29898.2 s, tree depth 2, steps 7, step size 0.006695314160513436
+iteration 450/1500 (adapt), 29965.1 s, tree depth 4, steps 15, step size 0.0024511839431915644
+iteration 451/1500 (adapt), 30031.4 s, tree depth 4, steps 15, step size 0.003473030841844703
+iteration 452/1500 (adapt), 30048.0 s, tree depth 2, steps 3, step size 0.004726377034880907
+iteration 453/1500 (adapt), 30056.5 s, tree depth 0, steps 1, step size 0.07446204272903996
+iteration 454/1500 (adapt), 30073.2 s, tree depth 1, steps 3, step size 0.014544788422833523
+iteration 455/1500 (adapt), 30094.0 s, tree depth 2, steps 4, step size 0.009987551590031505
+iteration 456/1500 (adapt), 30160.7 s, tree depth 4, steps 15, step size 0.0010657121791714241
+iteration 457/1500 (adapt), 30193.9 s, tree depth 3, steps 7, step size 0.001766816130438359
+iteration 458/1500 (adapt), 30227.1 s, tree depth 3, steps 7, step size 0.0030879797890547844
+iteration 459/1500 (adapt), 30260.1 s, tree depth 3, steps 7, step size 0.0012507260143153366
+iteration 460/1500 (adapt), 30293.3 s, tree depth 3, steps 7, step size 0.00246935449783374
+iteration 461/1500 (adapt), 30360.0 s, tree depth 4, steps 15, step size 0.001578771061748514
+iteration 462/1500 (adapt), 30393.2 s, tree depth 3, steps 7, step size 0.0019056325139088098
+iteration 463/1500 (adapt), 30426.7 s, tree depth 3, steps 7, step size 0.002702894637189471
+iteration 464/1500 (adapt), 30493.2 s, tree depth 4, steps 15, step size 0.0009015020938602155
+iteration 465/1500 (adapt), 30526.4 s, tree depth 3, steps 7, step size 0.001646302829701535
+iteration 466/1500 (adapt), 30559.5 s, tree depth 3, steps 7, step size 0.00241704798946835
+iteration 467/1500 (adapt), 30825.7 s, tree depth 6, steps 63, step size 0.001346894339274068
+iteration 468/1500 (adapt), 30858.8 s, tree depth 3, steps 7, step size 0.00037248836422475114
+iteration 469/1500 (adapt), 31124.4 s, tree depth 6, steps 63, step size 0.0008284749996530059
+iteration 470/1500 (adapt), 31141.1 s, tree depth 2, steps 3, step size 0.001823612122460708
+iteration 471/1500 (adapt), 31157.8 s, tree depth 2, steps 3, step size 0.003968846001316017
+iteration 472/1500 (adapt), 31190.8 s, tree depth 3, steps 7, step size 0.008535183096252901
+iteration 473/1500 (adapt), 31203.3 s, tree depth 1, steps 2, step size 0.01813111959250684
+iteration 474/1500 (adapt), 31236.8 s, tree depth 3, steps 7, step size 0.002028093323489344
+iteration 475/1500 (adapt), 31270.2 s, tree depth 3, steps 7, step size 0.0043082433253322314
+iteration 476/1500 (adapt), 31286.7 s, tree depth 2, steps 3, step size 0.00844030548646319
+iteration 477/1500 (adapt), 31352.9 s, tree depth 4, steps 15, step size 0.006305113504454204
+iteration 478/1500 (adapt), 31618.1 s, tree depth 6, steps 63, step size 0.0014078163138782056
+iteration 479/1500 (adapt), 31750.8 s, tree depth 5, steps 31, step size 0.0010618799276002542
+iteration 480/1500 (adapt), 31817.2 s, tree depth 4, steps 15, step size 0.0018291134092095675
+iteration 481/1500 (adapt), 31883.6 s, tree depth 4, steps 15, step size 0.0022476001208184444
+iteration 482/1500 (adapt), 31950.4 s, tree depth 4, steps 15, step size 0.0016906256307149597
+iteration 483/1500 (adapt), 32016.8 s, tree depth 4, steps 15, step size 0.0013452838799037946
+iteration 484/1500 (adapt), 32049.9 s, tree depth 3, steps 7, step size 0.001940070098668441
+iteration 485/1500 (adapt), 32182.7 s, tree depth 5, steps 31, step size 0.0017706086296044878
+iteration 486/1500 (adapt), 32248.6 s, tree depth 4, steps 15, step size 0.0005890489595011352
+iteration 487/1500 (adapt), 32265.0 s, tree depth 2, steps 3, step size 0.0011769722188353922
+iteration 488/1500 (adapt), 32297.7 s, tree depth 3, steps 7, step size 0.0023260077515757918
+iteration 489/1500 (adapt), 32314.3 s, tree depth 2, steps 3, step size 0.004547942308525599
+iteration 490/1500 (adapt), 32379.9 s, tree depth 4, steps 15, step size 0.008800452679725386
+iteration 491/1500 (adapt), 32396.4 s, tree depth 2, steps 3, step size 0.010125241342590484
+iteration 492/1500 (adapt), 32413.1 s, tree depth 2, steps 3, step size 0.008296154058838153
+iteration 493/1500 (adapt), 32479.0 s, tree depth 4, steps 15, step size 0.009027467348896147
+iteration 494/1500 (adapt), 32495.5 s, tree depth 2, steps 3, step size 0.006287338299495049
+iteration 495/1500 (adapt), 32512.0 s, tree depth 1, steps 3, step size 0.011843769275801119
+iteration 496/1500 (adapt), 32545.2 s, tree depth 3, steps 7, step size 0.004297688380592629
+iteration 497/1500 (adapt), 32561.4 s, tree depth 2, steps 3, step size 0.008043846725663498
+iteration 498/1500 (adapt), 32627.2 s, tree depth 4, steps 15, step size 0.0018173196618788236
+iteration 499/1500 (adapt), 32692.7 s, tree depth 4, steps 15, step size 0.003369802630296568
+iteration 500/1500 (adapt), 32758.7 s, tree depth 4, steps 15, step size 0.006168755493587475
+iteration 501/1500, 32783.3 s, tree depth 2, steps 5, step size 0.01131903927220496
+iteration 502/1500, 32914.9 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 503/1500, 33046.9 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 504/1500, 33179.3 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 505/1500, 33444.0 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 506/1500, 33710.2 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 507/1500, 34246.5 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 508/1500, 34279.7 s, tree depth 3, steps 7, step size 0.0036546989293508333
+iteration 509/1500, 34346.9 s, tree depth 4, steps 15, step size 0.0036546989293508333
+iteration 510/1500, 34615.2 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 511/1500, 34750.0 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 512/1500, 35018.9 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 513/1500, 35553.6 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 514/1500, 36087.0 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 515/1500, 36619.0 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 516/1500, 37150.1 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 517/1500, 37685.1 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 518/1500, 38225.9 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 519/1500, 38501.8 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 520/1500, 38777.4 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 521/1500, 39054.4 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 522/1500, 39603.1 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 523/1500, 39875.2 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 524/1500, 40149.0 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 525/1500, 40420.8 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 526/1500, 41515.3 s, tree depth 7, steps 255, step size 0.0036546989293508333
+iteration 527/1500, 41652.1 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 528/1500, 41787.9 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 529/1500, 42326.4 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 530/1500, 42592.8 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 531/1500, 43660.2 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 532/1500, 44726.7 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 533/1500, 44792.8 s, tree depth 4, steps 15, step size 0.0036546989293508333
+iteration 534/1500, 44858.7 s, tree depth 4, steps 15, step size 0.0036546989293508333
+iteration 535/1500, 44990.2 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 536/1500, 45252.7 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 537/1500, 45516.3 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 538/1500, 45782.9 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 539/1500, 46048.6 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 540/1500, 46314.6 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 541/1500, 46580.5 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 542/1500, 46713.3 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 543/1500, 46845.9 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 544/1500, 46978.2 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 545/1500, 47044.6 s, tree depth 4, steps 15, step size 0.0036546989293508333
+iteration 546/1500, 47176.5 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 547/1500, 47309.1 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 548/1500, 47572.4 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 549/1500, 47638.3 s, tree depth 4, steps 15, step size 0.0036546989293508333
+iteration 550/1500, 47704.6 s, tree depth 4, steps 15, step size 0.0036546989293508333
+iteration 551/1500, 48756.7 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 552/1500, 48887.4 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 553/1500, 49018.2 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 554/1500, 49279.6 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 555/1500, 49541.6 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 556/1500, 49803.2 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 557/1500, 51925.3 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 558/1500, 52458.4 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 559/1500, 52991.2 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 560/1500, 54055.3 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 561/1500, 54589.2 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 562/1500, 55123.7 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 563/1500, 59426.6 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 564/1500, 59494.6 s, tree depth 4, steps 15, step size 0.0036546989293508333
+iteration 565/1500, 59763.9 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 566/1500, 59898.7 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 567/1500, 60033.1 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 568/1500, 60167.6 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 569/1500, 60302.8 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 570/1500, 60369.4 s, tree depth 4, steps 15, step size 0.0036546989293508333
+iteration 571/1500, 60635.5 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 572/1500, 61167.4 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 573/1500, 61430.5 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 574/1500, 61693.3 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 575/1500, 61955.9 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 576/1500, 62218.4 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 577/1500, 62747.0 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 578/1500, 63273.9 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 579/1500, 63803.8 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 580/1500, 64858.4 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 581/1500, 65379.9 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 582/1500, 65905.3 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 583/1500, 66429.9 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 584/1500, 66954.3 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 585/1500, 68006.5 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 586/1500, 68531.5 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 587/1500, 69061.9 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 588/1500, 69595.5 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 589/1500, 69862.4 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 590/1500, 70396.3 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 591/1500, 70931.3 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 592/1500, 71196.9 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 593/1500, 71724.8 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 594/1500, 71988.0 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 595/1500, 72512.6 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 596/1500, 72775.5 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 597/1500, 73039.8 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 598/1500, 73302.5 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 599/1500, 73564.7 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 600/1500, 73826.6 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 601/1500, 74352.5 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 602/1500, 74483.2 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 603/1500, 74614.5 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 604/1500, 74745.3 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 605/1500, 74876.1 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 606/1500, 75008.0 s, tree depth 5, steps 31, step size 0.0036546989293508333
+iteration 607/1500, 75270.5 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 608/1500, 75796.9 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 609/1500, 77915.4 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 610/1500, 80038.9 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 611/1500, 81096.3 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 612/1500, 82154.8 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 613/1500, 82684.9 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 614/1500, 83747.0 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 615/1500, 84278.9 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 616/1500, 85343.8 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 617/1500, 85610.2 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 618/1500, 86138.1 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 619/1500, 86664.4 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 620/1500, 86927.7 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 621/1500, 87191.4 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 622/1500, 87454.9 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 623/1500, 87718.7 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 624/1500, 87982.0 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 625/1500, 88243.4 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 626/1500, 88504.0 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 627/1500, 90609.2 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 628/1500, 92733.5 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 629/1500, 94860.7 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 630/1500, 96994.0 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 631/1500, 99114.8 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 632/1500, 101238.8 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 633/1500, 103361.6 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 634/1500, 105483.3 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 635/1500, 106541.3 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 636/1500, 108652.9 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 637/1500, 109179.0 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 638/1500, 109703.9 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 639/1500, 109965.3 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 640/1500, 110227.4 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 641/1500, 110489.0 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 642/1500, 110748.9 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 643/1500, 111008.6 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 644/1500, 111269.3 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 645/1500, 111529.3 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 646/1500, 111788.2 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 647/1500, 115981.6 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 648/1500, 116522.2 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 649/1500, 117063.0 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 650/1500, 117604.2 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 651/1500, 118143.5 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 652/1500, 118685.4 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 653/1500, 119768.7 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 654/1500, 120852.7 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 655/1500, 123016.5 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 656/1500, 125191.0 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 657/1500, 127315.5 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 658/1500, 128369.2 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 659/1500, 129416.3 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 660/1500, 130462.7 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 661/1500, 130989.2 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 662/1500, 132043.1 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 663/1500, 133093.8 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 664/1500, 133619.0 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 665/1500, 134145.3 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 666/1500, 134672.8 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 667/1500, 134934.3 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 668/1500, 135195.6 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 669/1500, 135458.1 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 670/1500, 135719.7 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 671/1500, 135981.7 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 672/1500, 136506.3 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 673/1500, 137032.0 s, tree depth 7, steps 127, step size 0.0036546989293508333
+iteration 674/1500, 137292.4 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 675/1500, 137554.1 s, tree depth 6, steps 63, step size 0.0036546989293508333
+iteration 676/1500, 141778.8 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 677/1500, 143905.6 s, tree depth 9, steps 511, step size 0.0036546989293508333
+iteration 678/1500, 144965.2 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 679/1500, 146024.1 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 680/1500, 147080.1 s, tree depth 8, steps 255, step size 0.0036546989293508333
+iteration 681/1500, 151348.5 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 682/1500, 155594.7 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 683/1500, 159866.8 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 684/1500, 164174.2 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 685/1500, 168557.0 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 686/1500, 173022.0 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 687/1500, 177400.6 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 688/1500, 181777.2 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 689/1500, 186204.6 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 690/1500, 190621.1 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 691/1500, 195086.7 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 692/1500, 199528.7 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 693/1500, 203945.4 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 694/1500, 208333.2 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 695/1500, 212768.4 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 696/1500, 217243.3 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 697/1500, 221694.2 s, tree depth 10, steps 1023, step size 0.0036546989293508333
+iteration 698/1500, 226256.9 s, tree depth 10, steps 1023, step size 0.0036546989293508333
