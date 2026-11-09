@@ -44,6 +44,8 @@ function log_iteration(rng, model, sampler, sample, state, i; kwargs...)
             round(time() - t0; digits = 1), " s, tree depth ", get(sample.stats, :tree_depth, missing),
             ", steps ", get(sample.stats, :n_steps, missing), ", step size ", get(sample.stats, :step_size, missing),
             ", divergent ", get(sample.stats, :numerical_error, missing),
+            ", acceptance ", round(get(sample.stats, :acceptance_rate, NaN); digits = 3),
+            ", log density ", round(get(sample.stats, :log_density, NaN); digits = 1),
             ", failed ODE solves ", sum(values(new_failures); init = 0),
             isempty(new_failures) ? "" : " ($(join(("$k: $v" for (k, v) in new_failures), ", ")))")
     M⁻¹ = state.hamiltonian.metric.M⁻¹
