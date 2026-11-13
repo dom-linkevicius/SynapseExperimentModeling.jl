@@ -1,0 +1,98 @@
+  Activating project at `~/SynapseExperimentModeling.jl`
+Precompiling packages...
+    SynapseExperimentModeling Being precompiled by another machine (hostname: deigo012102.oist.jp, pid: 2743900, pidfile: /home/d/d-linkevicius/.julia/compiled/v1.12/SynapseExperimentModeling/U5WoC_wQhPk.ji.pidfile)
+ 123303.9 ms  ✓ SynapseExperimentModeling
+  1 dependency successfully precompiled in 239 seconds. 711 already precompiled.
+  37 dependencies precompiled but different versions are currently loaded (ArgTools, Base64, CRC32c, CodeTracking, Compiler, Dates, Downloads, InteractiveUtils, JuliaInterpreter, JuliaSyntaxHighlighting, LibCURL, LibCURL_jll, LibGit2, LibGit2_jll, LibSSH2_jll, Logging, LoweredCodeUtils, Markdown, MozillaCACerts_jll, NetworkOptions, OpenSSL_jll, OrderedCollections, Pkg, Pkg → REPLExt, Preferences, Printf, REPL, Revise, Serialization, StyledStrings, TOML, Tar, UUIDs, Unicode, Zlib_jll, nghttp2_jll and p7zip_jll). Restart julia to access the new versions. Otherwise, 525 dependents of these packages may trigger further precompilation to work with the unexpected versions.
+Sampling   0%|                                          |  ETA: N/A
+Sampling   0%|▎                                         |  ETA: 21:49:41
+Sampling   1%|▍                                         |  ETA: 14:58:28
+Sampling   2%|▋                                         |  ETA: 14:29:28
+Sampling   2%|▉                                         |  ETA: 20:40:46
+Sampling   2%|█                                         |  ETA: 20:58:49
+Sampling   3%|█▎                                        |  ETA: 23:41:06
+Sampling   4%|█▌                                        |  ETA: 23:59:45
+Sampling   4%|█▋                                        |  ETA: 23:06:58
+Sampling   4%|█▉                                        |  ETA: 21:47:18
+Sampling   5%|██▏                                       |  ETA: 20:58:07
+Sampling   6%|██▎                                       |  ETA: 23:45:22
+Sampling   6%|██▌                                       |  ETA: 23:05:44
+Sampling   6%|██▊                                       |  ETA: 22:53:01
+Sampling   7%|███                                       |  ETA: 21:44:45
+Sampling   8%|███▏                                      |  ETA: 21:41:30
+Sampling   8%|███▍                                      |  ETA: 21:49:05
+Sampling   8%|███▋                                      |  ETA: 21:28:52
+Sampling   9%|███▊                                      |  ETA: 21:23:11
+Sampling  10%|████                                      |  ETA: 20:55:25
+Sampling  10%|████▎                                     |  ETA: 21:06:52
+Sampling  10%|████▍                                     |  ETA: 21:11:57
+Sampling  11%|████▋                                     |  ETA: 22:35:28
+Sampling  12%|████▉                                     |  ETA: 1 days, 3:19:37
+Sampling  12%|█████                                     |  ETA: 1 days, 2:30:34
+Sampling  12%|█████▎                                    |  ETA: 1 days, 1:48:29
+Sampling  13%|█████▌                                    |  ETA: 1 days, 2:28:41
+Sampling  14%|█████▋                                    |  ETA: 1 days, 2:15:52
+Sampling  14%|█████▉                                    |  ETA: 1 days, 2:29:50
+Sampling  14%|██████▏                                   |  ETA: 1 days, 3:47:04
+Sampling  15%|██████▎                                   |  ETA: 1 days, 3:48:01
+Sampling  16%|██████▌                                   |  ETA: 1 days, 3:59:38
+Sampling  16%|██████▊                                   |  ETA: 1 days, 3:30:46
+Sampling  16%|██████▉                                   |  ETA: 1 days, 4:16:25
+Sampling  17%|███████▏                                  |  ETA: 1 days, 4:00:05
+Sampling  18%|███████▍                                  |  ETA: 1 days, 3:34:32
+Sampling  18%|███████▌                                  |  ETA: 1 days, 3:21:33
+Sampling  18%|███████▊                                  |  ETA: 1 days, 4:02:08
+Sampling  19%|████████                                  |  ETA: 1 days, 8:22:24
+Sampling  20%|████████▎                                 |  ETA: 1 days, 8:19:26
+Sampling  20%|████████▍                                 |  ETA: 1 days, 9:43:43
+Sampling  20%|████████▋                                 |  ETA: 1 days, 11:52:08
+Sampling  21%|████████▉                                 |  ETA: 1 days, 12:31:16
+Sampling  22%|█████████                                 |  ETA: 1 days, 12:38:22
+Sampling  22%|█████████▎                                |  ETA: 1 days, 17:01:48
+Sampling  22%|█████████▌                                |  ETA: 1 days, 18:10:01
+Sampling  23%|█████████▋                                |  ETA: 1 days, 17:19:14
+Sampling  24%|█████████▉                                |  ETA: 1 days, 16:37:59
+Sampling  24%|██████████▏                               |  ETA: 1 days, 15:49:39
+Sampling  24%|██████████▎                               |  ETA: 1 days, 15:16:28
+Sampling  25%|██████████▌                               |  ETA: 1 days, 15:47:16
+Sampling  26%|██████████▊                               |  ETA: 1 days, 15:25:05
+Sampling  26%|██████████▉                               |  ETA: 1 days, 15:11:35
+Sampling  26%|███████████▏                              |  ETA: 1 days, 14:33:54
+Sampling  27%|███████████▍                              |  ETA: 1 days, 14:12:21
+Sampling  28%|███████████▌                              |  ETA: 1 days, 14:58:12
+Sampling  28%|███████████▊                              |  ETA: 1 days, 14:15:06
+Sampling  28%|████████████                              |  ETA: 1 days, 13:41:44
+Sampling  29%|████████████▏                             |  ETA: 1 days, 13:55:46
+Sampling  30%|████████████▍                             |  ETA: 1 days, 14:25:23
+Sampling  30%|████████████▋                             |  ETA: 1 days, 14:08:25
+Sampling  30%|████████████▊                             |  ETA: 1 days, 14:22:07
+Sampling  31%|█████████████                             |  ETA: 1 days, 15:32:37
+Sampling  32%|█████████████▎                            |  ETA: 1 days, 17:35:18
+Sampling  32%|█████████████▌                            |  ETA: 1 days, 17:32:13
+Sampling  32%|█████████████▋                            |  ETA: 1 days, 17:07:10
+Sampling  33%|█████████████▉                            |  ETA: 1 days, 23:40:13
+Sampling  34%|██████████████▏                           |  ETA: 2 days, 6:57:41
+Sampling  34%|██████████████▎                           |  ETA: 2 days, 10:17:21
+Sampling  34%|██████████████▌                           |  ETA: 2 days, 10:04:07
+Sampling  35%|██████████████▊                           |  ETA: 2 days, 9:31:12
+Sampling  36%|██████████████▉                           |  ETA: 2 days, 9:26:46
+Sampling  36%|███████████████▏                          |  ETA: 2 days, 12:32:37
+Sampling  36%|███████████████▍                          |  ETA: 2 days, 15:11:00
+Sampling  37%|███████████████▌                          |  ETA: 2 days, 15:52:07
+Sampling  38%|███████████████▊                          |  ETA: 2 days, 16:15:21
+Sampling  38%|████████████████                          |  ETA: 2 days, 17:33:36
+Sampling  38%|████████████████▏                         |  ETA: 2 days, 23:50:08
+Sampling  39%|████████████████▍                         |  ETA: 3 days, 3:56:37
+Sampling  40%|████████████████▋                         |  ETA: 3 days, 3:38:56
+Sampling  40%|████████████████▊                         |  ETA: 3 days, 5:16:57
+Sampling  40%|█████████████████                         |  ETA: 3 days, 12:14:31
+Sampling  41%|█████████████████▎                        |  ETA: 3 days, 20:09:53
+Sampling  42%|█████████████████▍                        |  ETA: 4 days, 1:41:54
+Sampling  42%|█████████████████▋                        |  ETA: 4 days, 2:11:56
+Sampling  42%|█████████████████▉                        |  ETA: 4 days, 6:17:20
+Sampling  43%|██████████████████                        |  ETA: 4 days, 10:14:24
+Sampling  44%|██████████████████▎                       |  ETA: 4 days, 10:25:24
+Sampling  44%|██████████████████▌                       |  ETA: 4 days, 9:22:56
+Sampling  44%|██████████████████▊                       |  ETA: 4 days, 7:59:13
+Sampling  45%|██████████████████▉                       |  ETA: 4 days, 7:21:21
+Sampling  46%|███████████████████▏                      |  ETA: 4 days, 11:30:52
