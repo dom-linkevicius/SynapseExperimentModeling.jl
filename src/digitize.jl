@@ -16,7 +16,7 @@ using ImageCore: RGB, N0f8, red, green, blue
 using ImageFiltering: imfilter, centered, mapwindow, Fill, Algorithm
 using ImageMorphology: feature_transform, distance_transform, label_components, strel_diamond
 using DataStructures: BinaryMinHeap
-using CairoMakie: Figure, Axis, Rect, Circle, image!, scatter!, text!, hidedecorations!, hidespines!,
+using CairoMakie: Makie, Figure, Axis, Rect, Circle, image!, scatter!, lines!, text!, hidedecorations!, hidespines!,
                   resize_to_layout!
 import XLSX
 
@@ -55,12 +55,14 @@ end
 """
     PlotPanel(; name, frame, x, y, skip = [], title = name, crop, grid, conditions = (;),
               xvar = nothing, yvar = nothing, margin = 3, fontsize = nothing, axis = (;),
-              frame_width = nothing)
+              frame_width = nothing, read = nothing)
 
 One plot box of a figure. `frame` is `(left, top, right, bottom)` of the plot frame (or axis)
 lines, `x` and `y` are the `AxisMap`s from its tick marks, and `skip` lists boxes, in the
 same `(left, top, right, bottom)` form, whose ink is not data (legends, annotations, an
-inset). Data are searched for inside the frame lines, `margin` pixels in from them. `crop`
+inset). Data are searched for inside the frame lines, `margin` pixels in from them, or
+inside `read` (same form) where only part of the plot is to be read, e.g. the time range of
+one trace; the digitized plot still spans the whole frame, as the original does. `crop`
 is the region of the image shown above the digitized plot in the calibration figure, and
 `grid` the panel's `(row, column)` there. `conditions` are the experimental conditions
 shared by the panel's series, e.g. `(CaN_peptide = true,)`. `xvar`, `yvar` (`quantity =>
@@ -85,11 +87,12 @@ Base.@kwdef struct PlotPanel
     fontsize::Union{Nothing,Float64} = nothing
     axis::NamedTuple = (;)
     frame_width::Union{Nothing,Float64} = nothing
+    read::Union{Nothing,NTuple{4,Int}} = nothing
 end
 
 """
     MarkerSeries(; name, panel, ink, shape = :circle, radius, hollow = false, stroke = 2, threshold = 0.45,
-                 locate = :centroid, near = [], fixed = [], conditions = (;), colour, label = name)
+                 locate = :centroid, near = [], fixed = [], conditions = (;), colour, label = name, saved = true)
 
 A series of separate markers in panel `panel` with experimental `conditions` of its own
 (on top of the panel's), found in the colour test `ink` (a key of
@@ -103,7 +106,9 @@ or crowded for markers to stand out from lines, `near` lists their approximate c
 (pixels) instead, each snapped to the best template match within `radius`; the series then
 competes with others in its ink only at those markers. `fixed` lists centres read by eye
 and kept as given, for markers no template can match, e.g. ones on a frame line. Error bars
-are not read. `colour` and `label` are how the series is drawn in the digitized plot.
+are not read. `colour` and `label` are how the series is drawn in the digitized plot. A
+series with `saved = false` only competes for markers, so that those of the others are told
+apart, and is neither written nor drawn.
 """
 Base.@kwdef struct MarkerSeries
     name::String
@@ -120,19 +125,24 @@ Base.@kwdef struct MarkerSeries
     conditions::NamedTuple = (;)
     colour::String
     label::String = name
+    saved::Bool = true
 end
 
 """
     TraceSeries(; name, panel, ink, curve = 1, hollow = false, gap = 1, conditions = (;), shape = :circle,
-                radius, colour, label = "", label_below = false)
+                radius, colour, label = "", label_below = false, saved = true, span = nothing)
 
 A densely sampled series in panel `panel`, with experimental `conditions` of its own, whose
 markers merge into a band of ink `ink`, read as one point per pixel column: the centre of
 the band. These points are not the individual measurements. Several traces in one ink are
-told apart by `curve`, their order from the top (1) where all bands are separate. Open
+told apart by `curve`, their order from the top (1) where all bands are separate. A trace
+that covers only part of the panel's x range, e.g. one that ends early, is given that range
+as `span` (x data values, `(from, to)`); outside it the trace is not tracked. Open
 markers (`hollow`) are filled in first, and gaps of up to `gap` pixels within a band are
 bridged. `shape`, `radius`, `colour` and `label` are how the trace is drawn in the
 digitized plot; the label goes above the trace's right end, or below it (`label_below`).
+A trace with `saved = false` is only tracked, so that the bands of the others are told
+apart, and is neither written nor drawn.
 """
 Base.@kwdef struct TraceSeries
     name::String
@@ -147,6 +157,8 @@ Base.@kwdef struct TraceSeries
     colour::String
     label::String = ""
     label_below::Bool = false
+    saved::Bool = true
+    span::Union{Nothing,NTuple{2,Float64}} = nothing
 end
 
 const Series = Union{MarkerSeries,TraceSeries}
@@ -164,10 +176,10 @@ quantities and units (`xvar`, `yvar` as `quantity => unit`, unless the panel set
 own), and the panel's and series' conditions, one column each. `load_paper_data` joins the
 two back together.
 
-The digitized plots are drawn at the scale of the original: `fontsize`, `linewidth` and
-`ticksize` are the tick-label size, frame line width and tick length in image pixels;
-`shared_ylabel` shows the y label in the first column only; and `axis` holds Makie `Axis`
-attributes (labels, ticks, ...) that make the plots look like the original.
+In the calibration figure, `fontsize` and `ticksize` are the size of the tick labels and
+marks drawn over the original, in image pixels, and the `xticks` and `yticks` of `axis`
+(Makie `Axis` attributes, as in the original) are the ticks drawn. `linewidth`,
+`shared_ylabel` and the rest of `axis` are no longer used.
 """
 Base.@kwdef struct PaperFigure
     paper::String
@@ -314,7 +326,7 @@ end
 
 # 1-based rows and columns of the image searched for data: inside the frame lines
 function search_region(p::PlotPanel)
-    left, top, right, bottom = p.frame
+    left, top, right, bottom = something(p.read, p.frame)
     return (top + p.margin + 1):(bottom - p.margin + 1), (left + p.margin + 1):(right - p.margin + 1)
 end
 
@@ -443,8 +455,9 @@ const MAX_JUMP = 25
 ink and panel): the centre of its band in that column. Tracking starts at a column where
 every band is separate - the `curve`-th band from the top belongs to the series with that
 `curve` - and runs outward column by column, each series taking the band nearest its last
-position. Where bands have merged, each series sits its usual thickness in from its own
-edge of the merged band, and is flagged `merged`.
+position, also where a column shows as many bands as series. Where bands have merged, each series sits its usual thickness in from its own
+edge of the merged band, and is flagged `merged`. A series is tracked only in the columns
+within its `span`.
 """
 function trace_bands(mask::AbstractMatrix{Bool}, panel::PlotPanel, series)
     rows, cols = search_region(panel)
@@ -460,7 +473,10 @@ function trace_bands(mask::AbstractMatrix{Bool}, panel::PlotPanel, series)
     # bands in every column, ignoring single-pixel specks
     bands = [filter(r -> length(r) > 1, ink_runs(view(crop, :, j), maximum(s -> s.gap, series)))
              for j in axes(crop, 2)]
-    resolved = findall(b -> length(b) == n, bands)
+    # series present in each column: those whose span covers it
+    within(s, j) = isnothing(s.span) || s.span[1] <= pixel_to_value(panel.x, cols[1] - 2 + j) <= s.span[2]
+    present = [[k for k in 1:n if within(series[k], j)] for j in axes(crop, 2)]
+    resolved = findall(j -> length(present[j]) == n && length(bands[j]) == n, axes(crop, 2))
     isempty(resolved) && error("panel $(panel.name): no column shows all $n bands apart")
     thickness = map(1:n) do k
         sort([length(bands[j][k]) for j in resolved])[cld(length(resolved), 2)]
@@ -470,17 +486,20 @@ function trace_bands(mask::AbstractMatrix{Bool}, panel::PlotPanel, series)
     distance(r, y) = y < first(r) ? first(r) - y : y > last(r) ? y - last(r) : 0.0
     pos, merged = fill(NaN, n, size(crop, 2)), falses(n, size(crop, 2))
     function place!(j, prev)
-        b = bands[j]
-        if length(b) == n
-            pos[:, j] .= mid.(b)
-            return pos[:, j]
+        b, ks = bands[j], present[j]
+        # bands go to the series in order only at the start; after it, each series follows its nearest band
+        if !isempty(ks) && length(b) == length(ks) && all(k -> isnan(prev[k]), ks)
+            pos[ks, j] .= mid.(b)
+            return [isnan(pos[k, j]) ? prev[k] : pos[k, j] for k in 1:n]
         end
-        isempty(b) && return prev
-        owner = [argmin(r -> distance(r, prev[k]), b) for k in 1:n]
-        for k in 1:n
+        (isempty(b) || isempty(ks)) && return prev
+        owner = Dict(k => argmin(r -> distance(r, prev[k]), b) for k in ks)
+        # a series farther than MAX_JUMP from every band (e.g. one that has ended) owns none
+        reach = Dict(k => distance(owner[k], prev[k]) <= MAX_JUMP for k in ks)
+        for k in ks
             r = owner[k]
-            distance(r, prev[k]) <= MAX_JUMP || continue
-            shared = findall(==(r), owner)
+            reach[k] || continue
+            shared = filter(i -> reach[i] && owner[i] == r, ks)
             if length(shared) == 1
                 pos[k, j] = mid(r)
             else
@@ -512,7 +531,7 @@ end
     digitize(fig::PaperFigure) → DataFrame
 Read every series of `fig`, write the data to the figure's tab of
 `data/exp_raw/<paper>.xlsx` and what they are to its `META` tab, and save the calibration
-figure - the original panels above their digitized versions - as
+figure - the digitized data drawn over the original (see `calibration_figure`) - as
 `papers/<paper>/<image stem>_digitized.png`.
 """
 function digitize(fig::PaperFigure)
@@ -527,6 +546,10 @@ function digitize(fig::PaperFigure)
         for s in markers
             rivals = [rival_score(masks[s.ink], p, o) for o in markers if o !== s && o.ink == s.ink]
             pts = find_markers(masks[s.ink], p, s; rivals)
+            if !s.saved
+                println("  $(rpad(p.name, 10)) $(rpad(s.name, 10)) n = $(length(pts)), rival only, not saved")
+                continue
+            end
             rows = [(panel = p.name, series = s.name, x = pixel_to_value(p.x, x), y = pixel_to_value(p.y, y),
                      merged = false) for (x, y) in pts]
             isempty(rows) || push!(tables, DataFrame(rows))
@@ -537,6 +560,10 @@ function digitize(fig::PaperFigure)
             group = filter(s -> s.ink == ink, traces)
             for (name, pts) in trace_bands(masks[ink], p, group)
                 isempty(pts) && continue
+                if !only(s for s in group if s.name == name).saved
+                    println("  $(rpad(p.name, 10)) $(rpad(name, 10)) tracked only, not saved")
+                    continue
+                end
                 rows = [(panel = p.name, series = name, x = pixel_to_value(p.x, x), y = pixel_to_value(p.y, y),
                          merged = m) for (x, y, m) in pts]
                 push!(tables, DataFrame(rows))
@@ -560,8 +587,10 @@ const META_LAST = ["description", "doi"]
 
 # One META row per series of `fig`: what its x and y are, how they were read, and the
 # conditions of its panel and its own.
+saved(s::Series) = s.saved
+
 function metadata(fig::PaperFigure)
-    rows = map(fig.series) do s
+    rows = map(filter(saved, fig.series)) do s
         p = only(filter(p -> p.name == s.panel, fig.panels))
         xvar, yvar = something(p.xvar, fig.xvar, missing), something(p.yvar, fig.yvar, missing)
         (ismissing(xvar) || ismissing(yvar)) && error("$(fig.image) panel $(p.name): set xvar and yvar")
@@ -627,76 +656,85 @@ function load_paper_data(paper, figure = nothing)
     return insertcols!(out, 1, :paper => paper)
 end
 
-# Width of each digitized plot frame in the calibration figure; everything else (the
-# original crop, line widths, fonts, markers) is drawn at this frame's scale.
+# Width of each plot frame in the calibration figure; the crop of the original around it,
+# the fonts and the markers are drawn at this frame's scale.
 const FRAME_WIDTH = 600
-
-# Published-plot look for a digitized axis at `s` figure pixels per image pixel, with the
-# figure's line width and tick length and the panel's tick-label size `fontsize` (image
-# pixels); the figure's and panel's `axis` attributes override these.
-axis_style(s, fig::PaperFigure, fontsize) = (
-    xgridvisible = false, ygridvisible = false, spinewidth = fig.linewidth * s,
-    xtickalign = 1, ytickalign = 1, xminortickalign = 1, yminortickalign = 1,
-    xticksize = fig.ticksize * s, yticksize = fig.ticksize * s,
-    xminorticksize = fig.ticksize * s, yminorticksize = fig.ticksize * s,
-    xtickwidth = min(2, fig.linewidth) * s, ytickwidth = min(2, fig.linewidth) * s,
-    xminortickwidth = min(2, fig.linewidth) * s, yminortickwidth = min(2, fig.linewidth) * s,
-    xtickcolor = :gray50, ytickcolor = :gray50, xminortickcolor = :gray50, yminortickcolor = :gray50,
-    xticklabelfont = :bold, yticklabelfont = :bold, xlabelfont = :bold, ylabelfont = :bold,
-    xticklabelsize = fontsize * s, yticklabelsize = fontsize * s,
-    xlabelsize = 1.25fontsize * s, ylabelsize = 1.25fontsize * s)
 
 # Rect and Circle fill the marker size exactly; the :rect and :circle symbols are drawn
 # smaller than it
 plot_marker(shape) = shape === :square ? Rect : shape === :triangle ? :utriangle :
                      shape === :triangle_down ? :dtriangle : shape === :diamond ? :diamond : Circle
 
-function draw_series!(ax, se, d, s, fs)
-    style = se.hollow ? (color = :transparent, strokecolor = se.colour, strokewidth = s) : (color = se.colour,)
-    scatter!(ax, d.x, d.y; marker = plot_marker(se.shape), markersize = (2se.radius + 1) * s, style...)
-    if se isa TraceSeries && !isempty(se.label) && nrow(d) > 0
-        k = argmax(d.x)
-        text!(ax, d.x[k], d.y[k]; text = se.label, color = se.colour, fontsize = fs,
-              align = (:right, se.label_below ? :top : :bottom),
-              offset = (0, (se.label_below ? -1 : 1) * (se.radius + 2) * s))
+# pixel position of data value `v` along the axis mapped by `m`, the inverse of pixel_to_value
+value_to_pixel(m::AxisMap, v) = m.offset + m.slope * (m.log ? log10(v) : v)
+
+# tick values and labels from an `xticks`/`yticks` axis attribute (values, or (values,
+# labels)); without one, Makie's automatic ticks, or the decades on a log axis
+function tick_spec(spec, lo, hi, log::Bool)
+    if isnothing(spec)
+        values = log ? exp10.(ceil(Int, log10(lo)):floor(Int, log10(hi))) :
+                 Makie.get_tickvalues(Makie.WilkinsonTicks(5), lo, hi)
+        return values, string.(values)
     end
+    spec isa Tuple && return collect(first(spec)), collect(last(spec))
+    return collect(spec), string.(collect(spec))
 end
 
-function calibration_figure(fig::PaperFigure, img, df)
+"""
+    calibration_figure(fig::PaperFigure[, img, data]; colour = :red, alpha = 0.5) → path
+Draw `fig`'s digitized `data` over the crop of the original image around each panel: the
+points in `colour` with opacity `alpha`, mapped back to pixels through the panel's axis
+maps, and the frame and the tick marks and labels of those maps (labels inside the frame),
+so they can be checked against the original's. The figure goes to
+`papers/<paper>/<image stem>_digitized.png`. Without `img` and `data`, the image and the
+saved data are loaded, so the figure can be redrawn without digitizing again.
+"""
+function calibration_figure(fig::PaperFigure, img, df; colour = :red, alpha = 0.5)
     f = Figure()
+    ink = (colour, alpha)
+    X(px) = px + 0.5      # 0-based pixel to its centre, x to the right
+    Y(py) = -(py + 0.5)   # y down in the image, up in the axis
     for p in fig.panels
         row, col = p.grid
-        left, top, right, bottom = p.frame
-        width = something(p.frame_width, FRAME_WIDTH)
-        s = width / (right - left)
-        fontsize = something(p.fontsize, fig.fontsize)
-        fs = fontsize * s
-
         l, t, r, b = p.crop
-        original = Axis(f[2row - 1, col]; width = (r - l + 1) * s, height = (b - t + 1) * s)
-        image!(original, rotr90(img[(t + 1):(b + 1), (l + 1):(r + 1)]))
-        hidedecorations!(original)
-        hidespines!(original)
+        fl, ft, fr, fb = p.frame
+        s = something(p.frame_width, FRAME_WIDTH) / (fr - fl)
+        fs = something(p.fontsize, fig.fontsize) * s
+        ax = Axis(f[row, col]; width = (r - l + 1) * s, height = (b - t + 1) * s, limits = (l, r + 1, -(b + 1), -t))
+        hidedecorations!(ax)
+        hidespines!(ax)
+        image!(ax, (l, r + 1), (-(b + 1), -t), rotr90(img[(t + 1):(b + 1), (l + 1):(r + 1)]))
 
-        ax = Axis(f[2row, col]; axis_style(s, fig, fontsize)...,
-                  width, height = (bottom - top) * s,
-                  xscale = p.x.log ? log10 : identity, yscale = p.y.log ? log10 : identity,
-                  limits = (pixel_to_value(p.x, left), pixel_to_value(p.x, right),
-                            pixel_to_value(p.y, bottom), pixel_to_value(p.y, top)),
-                  fig.axis..., p.axis..., ylabelvisible = !fig.shared_ylabel || col == 1)
-        text!(ax, 0.03, 0.97; text = p.title, space = :relative, align = (:left, :top),
-              font = :bold, fontsize = 1.25fs)
-
-        series = filter(se -> se.panel == p.name, fig.series)
-        for se in series
-            draw_series!(ax, se, df[(df.panel .== p.name) .& (df.series .== se.name), :], s, fs)
+        lines!(ax, X.([fl, fr, fr, fl, fl]), Y.([fb, fb, ft, ft, fb]); color = ink, linewidth = 1.5)
+        attrs = merge(fig.axis, p.axis)
+        tl = 1.5 * fig.ticksize
+        xlo, xhi = extrema(pixel_to_value.(Ref(p.x), (fl, fr)))
+        for (v, label) in zip(tick_spec(get(attrs, :xticks, nothing), xlo, xhi, p.x.log)...)
+            xlo <= v <= xhi || continue
+            px = X(value_to_pixel(p.x, v))
+            lines!(ax, [px, px], Y.([fb - tl, fb + tl]); color = ink, linewidth = 2)
+            text!(ax, px, Y(fb - tl - 2); text = label, align = (:center, :bottom), color = ink, fontsize = fs)
         end
-        # marker legends as coloured text stacked up from the bottom right, as in the original
-        offset = 0.0
-        for se in reverse(filter(se -> se isa MarkerSeries && !isempty(se.label), series))
-            text!(ax, 0.95, 0.06; text = se.label, space = :relative, offset = (0, offset),
-                  align = (:right, :bottom), color = se.colour, font = :bold, fontsize = 1.35fs)
-            offset += 1.35fs * (1.2 * (count('\n', se.label) + 1) + 0.3)
+        ylo, yhi = extrema(pixel_to_value.(Ref(p.y), (fb, ft)))
+        for (v, label) in zip(tick_spec(get(attrs, :yticks, nothing), ylo, yhi, p.y.log)...)
+            ylo <= v <= yhi || continue
+            py = Y(value_to_pixel(p.y, v))
+            lines!(ax, X.([fl - tl, fl + tl]), [py, py]; color = ink, linewidth = 2)
+            text!(ax, X(fl + tl + 3), py; text = label, align = (:left, :center), color = ink, fontsize = fs)
+        end
+
+        for se in filter(se -> se.panel == p.name && saved(se), fig.series)
+            d = df[(df.panel .== p.name) .& (df.series .== se.name), :]
+            nrow(d) == 0 && continue
+            style = se.hollow ? (color = :transparent, strokecolor = ink, strokewidth = 1.5) : (color = ink,)
+            # trace points at least 3 px across, to stay visible over dense data
+            size = se isa TraceSeries ? max((2se.radius + 1) * s, 3) : (2se.radius + 1) * s
+            scatter!(ax, X.(value_to_pixel.(Ref(p.x), d.x)), Y.(value_to_pixel.(Ref(p.y), d.y));
+                     marker = plot_marker(se.shape), markersize = size, style...)
+            if se isa TraceSeries && !isempty(se.label)
+                text!(ax, X(value_to_pixel(p.x, d.x[end])), Y(value_to_pixel(p.y, d.y[end])); text = se.label, color = ink,
+                      fontsize = fs, align = (:right, se.label_below ? :top : :bottom), offset = (0, se.label_below ? -8 : 8))
+            end
         end
     end
     resize_to_layout!(f)
@@ -704,3 +742,7 @@ function calibration_figure(fig::PaperFigure, img, df)
     save(path, f)
     return path
 end
+
+calibration_figure(fig::PaperFigure; kw...) =
+    calibration_figure(fig, RGB{N0f8}.(load(joinpath(paper_dir(fig.paper), fig.image))),
+                       load_paper_data(fig.paper, figure_tab(fig)); kw...)

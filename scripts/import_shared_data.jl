@@ -15,7 +15,8 @@ import XLSX
 # papers/Faas_etal_2011/Faas_etal_2011_original.xlsx. Sheet1 has one column per trace, named
 # in row 1: the trace's parameters in the rows above "TIME", then F/F_t=0 at the times in
 # column E (ms, not equidistant); the authors' notes are in column A. Sheet2 holds their model
-# equations and stays in the original only.
+# equations and stays in the original only. All experiments were at 35.0 ± 0.1 °C (Online
+# Methods).
 faas_parameters = [  # Sheet1 label in column D => condition column
     "fast DM fraction" => "DMn_fast_fraction",
     "tau fast" => "DMn_tau_fast_ms",
@@ -56,6 +57,7 @@ let paper = "Faas_etal_2011"
     meta = DataFrame([(; figure = "TRACES", panel = batch(t), series = t, method = "shared privately",
                        x_quantity = "time", x_unit = "ms", y_quantity = "fluorescence_ratio", y_unit = "1",
                        CaM = "WT", (Symbol(name) => m[row(label), j] for (label, name) in faas_parameters)...,
+                       temperature_C = 35.0,
                        description, doi = "10.1038/nn.2746")
                       for (j, t) in traces])
     path = write_paper_data(SynapseExperimentModeling.exp_raw_path(paper), "TRACES",

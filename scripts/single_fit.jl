@@ -6,21 +6,30 @@ import Turing
 using TerminalLoggers, Logging
 
 include(joinpath(dirname(@__DIR__), "model_zoo", "calmodulin.jl"))
-dm = datamodel()
+###dm = datamodel()
 
-###res = fit_model(
-###    dm,
-###    NoLimits.FOCEI(;
-###        interaction = true,
-###        optim_kwargs = (;
-###            maxiters = 1,
-###            local_maxiters = 20,
-###            show_trace = true,
-###            extended_trace = false,
-###        )
-###    )
-###)
-###
+df = calmodulin_data()
+faas = unique(df.series[df.setup .== "Faas"])                 # the 94 trace IDs
+subset_faas(k) = df[(df.setup .!= "Faas") .| in(faas[1:k]).(df.series), :]
+dm = datamodel("calmodulin_full", subset_faas(10))              # 5 Faas traces plus all other setups
+
+res = fit_model(
+    dm,
+    ###NoLimits.Laplace(;
+    NoLimits.FOCEI(;
+        interaction = true,
+        optim_kwargs = (;
+            maxiters = 1,
+            local_maxiters = 10,
+            show_trace = true,
+            extended_trace = false,
+            batch_threading = true,
+        )
+    );
+    constants_re = CONSTANTS_RE,
+    penalty = (ω = 1 / (2 * OMEGA_PRIOR_SD^2),)
+)
+
 ###### continue fit
 ###res = fit_model(
 ###    dm, 
@@ -36,21 +45,22 @@ dm = datamodel()
 ###    theta_0_untransformed = get_params(res; scale = :untransformed)
 ###)
 
-res = with_logger(TerminalLogger()) do
-    fit_model(
-        dm, 
-        NoLimits.MCMC(; 
-            sampler = Turing.NUTS(0.75), 
-            turing_kwargs = (
-                n_samples = 1000, 
-                n_adapt = 500, 
-                progress = true
-            )
-        )
-    )
-end
+###res = with_logger(TerminalLogger()) do
+###    fit_model(
+###        dm, 
+###        NoLimits.MCMC(; 
+###            sampler = Turing.NUTS(0.75), 
+###            turing_kwargs = (
+###                n_samples = 100, #0, 
+###                n_adapt = 50, #00, 
+###                progress = true
+###            )
+###        )
+###    )
+###end
 
 plot_calmodulin(res)
+plot_setup_parameters(res; common_limits = true)
 
 
 ###

@@ -70,7 +70,8 @@ res = fit_model(
             progress = true
         )
     );
-    rng = Xoshiro(chain_id)
+    rng = Xoshiro(chain_id),
+    constants_re = CONSTANTS_RE
 )
 
 dir = mkpath(joinpath(ROOT, "results", model_name))
