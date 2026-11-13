@@ -7,7 +7,8 @@ include("digitize.jl")
 include("kinetics.jl")
 
 export SOLVER, ABSTOL, RELTOL
-export AxisMap, PlotPanel, MarkerSeries, TraceSeries, PaperFigure, digitize, load_paper_data, write_paper_data
+export AxisMap, PlotPanel, MarkerSeries, TraceSeries, PaperFigure, digitize, calibration_figure, load_paper_data,
+       write_paper_data
 export equilibrium
 
 end
